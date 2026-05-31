@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZapLog Inspection Directory</title>
+    <style>
+        /* Minimalist Dark Industrial Styling */
+        body {
+            background-color: #000000;
+            color: #ffffff;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 15px;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* Responsive layout for mobile phones */
+        @media (max-width: 768px) {
+            .grid-container {
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+        }
+
+        /* Product Card Styling */
+        .card {
+            background: #0d0d0d;
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            transition: transform 0.2s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Status-Specific Visual Borders */
+        .card.fail {
+            border: 1px solid rgba(255, 77, 77, 0.4);
+            box-shadow: inset 0 0 10px rgba(255, 77, 77, 0.05);
+        }
+
+        .card.pass {
+            border: 1px solid rgba(46, 204, 113, 0.4);
+            box-shadow: inset 0 0 10px rgba(46, 204, 113, 0.05);
+        }
+
+        /* Badges */
+        .badge {
+            font-size: 0.75rem;
+            font-weight: 800;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            padding: 6px 10px;
+            border-radius: 6px;
+            display: inline-block;
+            align-self: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .fail .badge {
+            background: rgba(255, 77, 77, 0.15);
+            color: #ff4d4d;
+            border: 1px solid #ff4d4d;
+        }
+
+        .pass .badge {
+            background: rgba(46, 204, 113, 0.15);
+            color: #2ecc71;
+            border: 1px solid #2ecc71;
+        }
+
+        .product-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin: 0 0 10px 0;
+            letter-spacing: -0.02em;
+        }
+
+        .verdict-text {
+            font-size: 0.9rem;
+            line-height: 1.5;
+            color: #cccccc;
+            margin: 0 0 20px 0;
+        }
+
+        /* Action Buttons */
+        .btn {
+            display: block;
+            text-align: center;
+            padding: 12px;
+            margin-top: auto;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.9rem;
+            transition: background 0.2s ease;
+        }
+
+        .fail .btn {
+            background: #1a1a1a;
+            color: #888888;
+            border: 1px solid #333333;
+        }
+
+        .fail .btn:hover {
+            background: #262626;
+            color: #ffffff;
+        }
+
+        .pass .btn {
+            background: #2ecc71;
+            color: #000000;
+        }
+
+        .pass .btn:hover {
+            background: #27ae60;
+        }
+    </style>
+</head>
+<body>
+
+<div class="grid-container" id="log-directory">
+    <!-- Automated injection happens here -->
+</div>
+
+<script>
+/**
+ * THE INSPECTION DATABASE
+ * To add or modify products, simply edit this array list below.
+ * Layout order alternates seamlessly based on pairs (Fail next to Pass).
+ */
+const inspectionLog = [
+    {
+        status: "fail",
+        name: "Viral '15W' Minimalist Wood Desk Lamp",
+        verdict: "Advertised listing claims 15W high-speed Qi charging. Factory schematic check reveals a maximum hardware input of 5V/1A. Basic physics limit calculation ($5V \\times 1A = 5W$) proves the 15W claim is a 200% data fabrication.",
+        buttonText: "Expose Listing Claims",
+        url: "https://www.aliexpress.com/" // Link to the original listing
+    },
+    {
+        status: "pass",
+        name: "Verified Qi-Certified Minimalist Lamp",
+        verdict: "True, continuous 15W charging speed verified via factory controller chip analysis. Built with proper copper induction coils and thermal dissipation pathways. Safe for nightly desktop deployment.",
+        buttonText: "Check Safe Supplier Price",
+        url: "https://s.click.aliexpress.com/" // Your AliExpress Affiliate link
+    }
+];
+
+// Injection Logic Engine
+const directory = document.getElementById('log-directory');
+
+inspectionLog.forEach(item => {
+    const card = document.createElement('div');
+    card.className = `card ${item.status}`;
+    
+    const badgeText = item.status === 'pass' ? '🟢 QC INSPECTION PASS' : '❌ CONDEMNED HAZARD';
+    
+    card.innerHTML = `
+        <div class="badge">${badgeText}</div>
+        <h3 class="product-title">${item.name}</h3>
+        <p class="verdict-text">${item.verdict}</p>
+        <a href="${item.url}" target="_blank" class="btn">${item.buttonText}</a>
+    `;
+    
+    directory.appendChild(card);
+});
+</script>
+</body>
+</html>
