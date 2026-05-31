@@ -3,26 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The QC Report Directory</title>
+    <title>The QC Report Dashboard</title>
     <style>
         /* Premium Dark Industrial Styling */
         body {
-            background-color: transparent; /* Allows Carrd's background to show through */
+            background-color: transparent;
             color: #ffffff;
-            font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
             margin: 0;
-            padding: 10px;
+            padding: 5px;
         }
 
+        /* Navigation Menu */
+        .nav-menu {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #333;
+            scrollbar-width: none; /* Firefox */
+        }
+        .nav-menu::-webkit-scrollbar { display: none; } /* Chrome/Safari */
+
+        .nav-btn {
+            background: transparent;
+            color: #888;
+            border: none;
+            font-size: 0.95rem;
+            font-weight: 700;
+            padding: 8px 16px;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+        
+        .nav-btn:hover {
+            color: #fff;
+            background: #1a1a1a;
+        }
+
+        .nav-btn.active {
+            background: #ffffff;
+            color: #000000;
+        }
+
+        /* Layout Grids */
         .grid-container {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 24px;
-            max-width: 900px;
-            margin: 0 auto;
         }
 
-        /* Mobile Viewport Adjustment */
+        .single-column {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 40px;
+        }
+
         @media (max-width: 768px) {
             .grid-container {
                 grid-template-columns: 1fr;
@@ -30,156 +69,211 @@
             }
         }
 
-        /* Product Card Styling */
+        /* The VS Comparison Layout */
+        .comparison-wrapper {
+            background: #050505;
+            border: 1px solid #1a1a1a;
+            border-radius: 16px;
+            padding: 20px;
+            position: relative;
+        }
+
+        .comparison-header {
+            text-align: center;
+            font-weight: 800;
+            font-size: 1.1rem;
+            color: #fff;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .vs-badge {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #000;
+            color: #fff;
+            border: 2px solid #333;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 0.8rem;
+            z-index: 10;
+        }
+
+        @media (max-width: 768px) {
+            .vs-badge {
+                top: 52%; /* Adjusts for stacked mobile view */
+            }
+        }
+
+        /* Standard Cards */
         .card {
             background: #0a0a0a;
             border-radius: 12px;
             padding: 24px;
             display: flex;
             flex-direction: column;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            transition: transform 0.2s ease;
         }
+        
+        .card:hover { transform: translateY(-2px); }
+        .card.fail { border: 1px solid rgba(255, 77, 77, 0.25); }
+        .card.pass { border: 1px solid rgba(46, 204, 113, 0.25); }
+        .card.neutral { border: 1px solid #333; } /* For Guides/Audio */
 
-        .card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.8);
-        }
-
-        /* Status-Specific Visuals */
-        .card.fail {
-            border: 1px solid rgba(255, 77, 77, 0.25);
-        }
-
-        .card.pass {
-            border: 1px solid rgba(46, 204, 113, 0.25);
-        }
-
-        /* Badges - Ultra Minimalist */
+        /* Badges */
         .badge {
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             font-weight: 800;
             letter-spacing: 0.08em;
-            text-transform: uppercase;
             padding: 6px 12px;
             border-radius: 6px;
             display: inline-block;
             align-self: flex-start;
             margin-bottom: 16px;
         }
+        .fail .badge { background: rgba(255, 77, 77, 0.1); color: #ff4d4d; border: 1px solid rgba(255, 77, 77, 0.3); }
+        .pass .badge { background: rgba(46, 204, 113, 0.1); color: #2ecc71; border: 1px solid rgba(46, 204, 113, 0.3); }
+        .neutral .badge { background: #1a1a1a; color: #fff; border: 1px solid #444; }
 
-        .fail .badge {
-            background: rgba(255, 77, 77, 0.1);
-            color: #ff4d4d;
-            border: 1px solid rgba(255, 77, 77, 0.3);
-        }
-
-        .pass .badge {
-            background: rgba(46, 204, 113, 0.1);
-            color: #2ecc71;
-            border: 1px solid rgba(46, 204, 113, 0.3);
-        }
-
-        /* Text Hierarchy */
-        .product-title {
-            font-size: 1.25rem;
-            font-weight: 700;
-            margin: 0 0 12px 0;
-            letter-spacing: -0.01em;
-            line-height: 1.3;
-        }
-
-        .verdict-text {
-            font-size: 0.95rem;
-            line-height: 1.6;
-            color: #a3a3a3;
-            margin: 0 0 24px 0;
-        }
-
-        /* Action Buttons */
+        /* Typography & Buttons */
+        .product-title { font-size: 1.2rem; font-weight: 700; margin: 0 0 12px 0; line-height: 1.3; }
+        .verdict-text { font-size: 0.9rem; line-height: 1.6; color: #a3a3a3; margin: 0 0 24px 0; }
+        
         .btn {
-            display: block;
-            text-align: center;
-            padding: 14px;
-            margin-top: auto;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 0.95rem;
-            letter-spacing: 0.02em;
+            display: block; text-align: center; padding: 12px; margin-top: auto;
+            border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 0.9rem;
             transition: all 0.2s ease;
         }
+        .fail .btn { background: #141414; color: #888; border: 1px solid #2a2a2a; }
+        .fail .btn:hover { background: #1f1f1f; color: #fff; border-color: #444; }
+        .pass .btn { background: #2ecc71; color: #000; box-shadow: 0 4px 15px rgba(46, 204, 113, 0.2); }
+        .pass .btn:hover { background: #27ae60; transform: scale(1.02); }
+        .neutral .btn { background: #fff; color: #000; }
+        .neutral .btn:hover { background: #e6e6e6; }
 
-        .fail .btn {
-            background: #141414;
-            color: #888888;
-            border: 1px solid #2a2a2a;
-        }
-
-        .fail .btn:hover {
-            background: #1f1f1f;
-            color: #ffffff;
-            border-color: #444444;
-        }
-
-        .pass .btn {
-            background: #2ecc71;
-            color: #000000;
-            box-shadow: 0 4px 15px rgba(46, 204, 113, 0.2);
-        }
-
-        .pass .btn:hover {
-            background: #27ae60;
-            transform: scale(1.02);
-        }
+        /* Hide tabs by default */
+        .tab-content { display: none; }
+        .tab-content.active { display: block; animation: fadeIn 0.3s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
-<div class="grid-container" id="qc-directory">
-    <!-- Automated injection happens here -->
+<!-- Navigation Menu -->
+<div class="nav-menu">
+    <button class="nav-btn active" onclick="switchTab('teardowns')">Teardowns</button>
+    <button class="nav-btn" onclick="switchTab('pass-list')">Pass List</button>
+    <button class="nav-btn" onclick="switchTab('fail-list')">Fail List</button>
+    <button class="nav-btn" onclick="switchTab('guides')">Guides</button>
+    <button class="nav-btn" onclick="switchTab('stealth')">Stealth Audio</button>
 </div>
+
+<!-- Main Content Area -->
+<div id="app-container"></div>
 
 <script>
 /**
- * THE QC DATABASE
- * Add new product reviews below.
+ * THE DATABASE
+ * Organize your content into these specific arrays.
  */
-const qcLog = [
-    {
-        status: "fail",
-        name: "Viral '15W' Minimalist Wood Desk Lamp",
-        verdict: "Advertised listing claims 15W high-speed Qi charging. Factory schematic check reveals a maximum hardware input of 5V/1A. Basic physics limit calculation (5V x 1A = 5W) proves the 15W claim is a data fabrication.",
-        buttonText: "Expose Listing Claims",
-        url: "https://www.aliexpress.com/" // Fake listing link
-    },
-    {
-        status: "pass",
-        name: "Verified Qi-Certified Minimalist Lamp",
-        verdict: "True, continuous 15W charging speed verified via factory controller chip analysis. Built with proper copper induction coils and thermal dissipation pathways. Safe for nightly desktop deployment.",
-        buttonText: "Check Safe Supplier Price",
-        url: "https://s.click.aliexpress.com/" // Your affiliate link
-    }
-];
+const db = {
+    // 1. Linked Comparisons (Shows the Scam vs The Safe Option side-by-side)
+    comparisons: [
+        {
+            topic: "15W Minimalist Desk Lamps",
+            fail: {
+                name: "Viral '15W' Wood Lamp",
+                verdict: "Schematic check reveals max input of 5V/1A. Physics calculation (5V x 1A = 5W) proves the 15W claim is a data fabrication.",
+                button: "Expose Listing",
+                url: "#"
+            },
+            pass: {
+                name: "Verified Qi-Certified Lamp",
+                verdict: "Continuous 15W verified via chip analysis. Built with proper copper coils and thermal dissipation. Safe for deployment.",
+                button: "Check Verified Supplier",
+                url: "#"
+            }
+        }
+    ],
 
-// Injection Engine
-const directory = document.getElementById('qc-directory');
+    // 2. Standalone PASSED Products
+    passList: [
+        { name: "Heavy-Duty Surge Strip", verdict: "Passed internal circuit testing. Legitimate joule rating verified.", button: "Get Verified Gear", url: "#" }
+    ],
 
-qcLog.forEach(item => {
-    const card = document.createElement('div');
-    card.className = `card ${item.status}`;
-    
-    // Strict Pass/Fail Emoji Badges
-    const badgeText = item.status === 'pass' ? '🟢 PASS' : '❌ FAIL';
-    
-    card.innerHTML = `
-        <div class="badge">${badgeText}</div>
-        <h3 class="product-title">${item.name}</h3>
-        <p class="verdict-text">${item.verdict}</p>
-        <a href="${item.url}" target="_blank" class="btn">${item.buttonText}</a>
+    // 3. Standalone FAILED Products
+    failList: [
+        { name: "Counterfeit Smart Plug", verdict: "Zero grounding wire. Falsified UL certification stamp on the plastic casing.", button: "See Fake Listing", url: "#" }
+    ],
+
+    // 4. Guides & Education
+    guides: [
+        { name: "How to Spot a Fake Spec Sheet", verdict: "A quick guide on reading voltage limits and identifying dropshipper math before you buy.", button: "Read Guide", url: "#" }
+    ],
+
+    // 5. Stealth Audio Gear
+    stealthAudio: [
+        { name: "Hidden Environmental Audio Setup", verdict: "Curated, specialized audio gear designed to blend into specific environments without drawing attention.", button: "View Stealth Collection", url: "#" }
+    ]
+};
+
+// Render Engine
+const container = document.getElementById('app-container');
+
+function renderCard(item, status) {
+    const badgeMap = { 'pass': '🟢 PASS', 'fail': '❌ FAIL', 'neutral': '📄 READ' };
+    return `
+        <div class="card ${status}">
+            <div class="badge">${badgeMap[status]}</div>
+            <h3 class="product-title">${item.name}</h3>
+            <p class="verdict-text">${item.verdict}</p>
+            <a href="${item.url}" target="_blank" class="btn">${item.button}</a>
+        </div>
     `;
-    
-    directory.appendChild(card);
-});
+}
+
+function renderComparisons() {
+    return db.comparisons.map(comp => `
+        <div class="comparison-wrapper">
+            <div class="comparison-header">REPORT: ${comp.topic}</div>
+            <div class="grid-container">
+                ${renderCard(comp.fail, 'fail')}
+                ${renderCard(comp.pass, 'pass')}
+            </div>
+            <div class="vs-badge">VS</div>
+        </div>
+    `).join('');
+}
+
+function renderGrid(array, status) {
+    return `<div class="grid-container">` + array.map(item => renderCard(item, status)).join('') + `</div>`;
+}
+
+// Tab Switching Logic
+function switchTab(tabId) {
+    document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+    event.currentTarget.classList.add('active');
+
+    let html = '';
+    if (tabId === 'teardowns') html = `<div class="single-column">${renderComparisons()}</div>`;
+    if (tabId === 'pass-list') html = renderGrid(db.passList, 'pass');
+    if (tabId === 'fail-list') html = renderGrid(db.failList, 'fail');
+    if (tabId === 'guides') html = renderGrid(db.guides, 'neutral');
+    if (tabId === 'stealth') html = renderGrid(db.stealthAudio, 'neutral');
+
+    container.innerHTML = html;
+}
+
+// Initialize default view
+document.addEventListener("DOMContentLoaded", () => switchTab('teardowns'));
 </script>
 </body>
 </html>
