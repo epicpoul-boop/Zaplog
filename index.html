@@ -3,169 +3,173 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ZapLog Inspection Directory</title>
+    <title>The QC Report Directory</title>
     <style>
-        /* Minimalist Dark Industrial Styling */
+        /* Premium Dark Industrial Styling */
         body {
-            background-color: #000000;
+            background-color: transparent; /* Allows Carrd's background to show through */
             color: #ffffff;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             margin: 0;
-            padding: 15px;
+            padding: 10px;
         }
 
         .grid-container {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 20px;
+            gap: 24px;
             max-width: 900px;
             margin: 0 auto;
         }
 
-        /* Responsive layout for mobile phones */
+        /* Mobile Viewport Adjustment */
         @media (max-width: 768px) {
             .grid-container {
                 grid-template-columns: 1fr;
-                gap: 25px;
+                gap: 20px;
             }
         }
 
         /* Product Card Styling */
         .card {
-            background: #0d0d0d;
+            background: #0a0a0a;
             border-radius: 12px;
-            padding: 20px;
+            padding: 24px;
             display: flex;
             flex-direction: column;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-            transition: transform 0.2s ease;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
 
         .card:hover {
-            transform: translateY(-2px);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.8);
         }
 
-        /* Status-Specific Visual Borders */
+        /* Status-Specific Visuals */
         .card.fail {
-            border: 1px solid rgba(255, 77, 77, 0.4);
-            box-shadow: inset 0 0 10px rgba(255, 77, 77, 0.05);
+            border: 1px solid rgba(255, 77, 77, 0.25);
         }
 
         .card.pass {
-            border: 1px solid rgba(46, 204, 113, 0.4);
-            box-shadow: inset 0 0 10px rgba(46, 204, 113, 0.05);
+            border: 1px solid rgba(46, 204, 113, 0.25);
         }
 
-        /* Badges */
+        /* Badges - Ultra Minimalist */
         .badge {
-            font-size: 0.75rem;
+            font-size: 0.8rem;
             font-weight: 800;
-            letter-spacing: 0.05em;
+            letter-spacing: 0.08em;
             text-transform: uppercase;
-            padding: 6px 10px;
+            padding: 6px 12px;
             border-radius: 6px;
             display: inline-block;
             align-self: flex-start;
-            margin-bottom: 15px;
+            margin-bottom: 16px;
         }
 
         .fail .badge {
-            background: rgba(255, 77, 77, 0.15);
+            background: rgba(255, 77, 77, 0.1);
             color: #ff4d4d;
-            border: 1px solid #ff4d4d;
+            border: 1px solid rgba(255, 77, 77, 0.3);
         }
 
         .pass .badge {
-            background: rgba(46, 204, 113, 0.15);
+            background: rgba(46, 204, 113, 0.1);
             color: #2ecc71;
-            border: 1px solid #2ecc71;
+            border: 1px solid rgba(46, 204, 113, 0.3);
         }
 
+        /* Text Hierarchy */
         .product-title {
-            font-size: 1.2rem;
+            font-size: 1.25rem;
             font-weight: 700;
-            margin: 0 0 10px 0;
-            letter-spacing: -0.02em;
+            margin: 0 0 12px 0;
+            letter-spacing: -0.01em;
+            line-height: 1.3;
         }
 
         .verdict-text {
-            font-size: 0.9rem;
-            line-height: 1.5;
-            color: #cccccc;
-            margin: 0 0 20px 0;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #a3a3a3;
+            margin: 0 0 24px 0;
         }
 
         /* Action Buttons */
         .btn {
             display: block;
             text-align: center;
-            padding: 12px;
+            padding: 14px;
             margin-top: auto;
-            border-radius: 6px;
+            border-radius: 8px;
             text-decoration: none;
             font-weight: 700;
-            font-size: 0.9rem;
-            transition: background 0.2s ease;
+            font-size: 0.95rem;
+            letter-spacing: 0.02em;
+            transition: all 0.2s ease;
         }
 
         .fail .btn {
-            background: #1a1a1a;
+            background: #141414;
             color: #888888;
-            border: 1px solid #333333;
+            border: 1px solid #2a2a2a;
         }
 
         .fail .btn:hover {
-            background: #262626;
+            background: #1f1f1f;
             color: #ffffff;
+            border-color: #444444;
         }
 
         .pass .btn {
             background: #2ecc71;
             color: #000000;
+            box-shadow: 0 4px 15px rgba(46, 204, 113, 0.2);
         }
 
         .pass .btn:hover {
             background: #27ae60;
+            transform: scale(1.02);
         }
     </style>
 </head>
 <body>
 
-<div class="grid-container" id="log-directory">
+<div class="grid-container" id="qc-directory">
     <!-- Automated injection happens here -->
 </div>
 
 <script>
 /**
- * THE INSPECTION DATABASE
- * To add or modify products, simply edit this array list below.
- * Layout order alternates seamlessly based on pairs (Fail next to Pass).
+ * THE QC DATABASE
+ * Add new product reviews below.
  */
-const inspectionLog = [
+const qcLog = [
     {
         status: "fail",
         name: "Viral '15W' Minimalist Wood Desk Lamp",
-        verdict: "Advertised listing claims 15W high-speed Qi charging. Factory schematic check reveals a maximum hardware input of 5V/1A. Basic physics limit calculation ($5V \\times 1A = 5W$) proves the 15W claim is a 200% data fabrication.",
+        verdict: "Advertised listing claims 15W high-speed Qi charging. Factory schematic check reveals a maximum hardware input of 5V/1A. Basic physics limit calculation (5V x 1A = 5W) proves the 15W claim is a data fabrication.",
         buttonText: "Expose Listing Claims",
-        url: "https://www.aliexpress.com/" // Link to the original listing
+        url: "https://www.aliexpress.com/" // Fake listing link
     },
     {
         status: "pass",
         name: "Verified Qi-Certified Minimalist Lamp",
         verdict: "True, continuous 15W charging speed verified via factory controller chip analysis. Built with proper copper induction coils and thermal dissipation pathways. Safe for nightly desktop deployment.",
         buttonText: "Check Safe Supplier Price",
-        url: "https://s.click.aliexpress.com/" // Your AliExpress Affiliate link
+        url: "https://s.click.aliexpress.com/" // Your affiliate link
     }
 ];
 
-// Injection Logic Engine
-const directory = document.getElementById('log-directory');
+// Injection Engine
+const directory = document.getElementById('qc-directory');
 
-inspectionLog.forEach(item => {
+qcLog.forEach(item => {
     const card = document.createElement('div');
     card.className = `card ${item.status}`;
     
-    const badgeText = item.status === 'pass' ? '🟢 QC INSPECTION PASS' : '❌ CONDEMNED HAZARD';
+    // Strict Pass/Fail Emoji Badges
+    const badgeText = item.status === 'pass' ? '🟢 PASS' : '❌ FAIL';
     
     card.innerHTML = `
         <div class="badge">${badgeText}</div>
