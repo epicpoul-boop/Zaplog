@@ -14,43 +14,45 @@
             padding: 5px;
         }
 
-        /* Navigation Menu - Mobile Bulletproof Version */
+        /* Navigation Menu - Wrap & Center for Mobile */
         .nav-menu {
             display: flex;
-            flex-wrap: nowrap;
-            gap: 12px;
+            flex-wrap: wrap; /* Dette tillater knappene å hoppe til neste linje! */
+            justify-content: center; /* Sentrerer knappene vakkert på skjermen */
+            gap: 10px;
             margin-top: 10px; 
             margin-bottom: 30px;
-            padding: 10px 5px; 
-            overflow-x: auto;
-            overflow-y: hidden;
+            padding: 10px 0; 
             width: 100%; 
             box-sizing: border-box;
-            -webkit-overflow-scrolling: touch; 
-            scrollbar-width: none;
-        }
-        
-        .nav-menu::-webkit-scrollbar { 
-            display: none; 
         }
 
+        /* Standard Button Styling */
         .nav-btn {
-            flex-shrink: 0; 
-            background: #2a2a2a; 
-            color: #ffffff;
-            border: 1px solid #555555;
-            font-size: 0.95rem;
+            background: #111111; 
+            color: #aaaaaa;
+            border: 1px solid #333333;
+            font-size: 0.9rem;
             font-weight: 700;
-            padding: 12px 24px;
+            padding: 12px 20px;
             cursor: pointer;
             border-radius: 50px;
             transition: all 0.2s ease;
             white-space: nowrap;
-            display: block;
         }
         
-        .nav-btn:hover { background: #3a3a3a; border-color: #777; }
+        .nav-btn:hover { background: #222222; border-color: #666666; color: #ffffff; }
+        
+        /* Distinctive Button Colors & Active States */
         .nav-btn.active { background: #ffffff; color: #000000; border-color: #ffffff; }
+
+        /* Verified Button Colorway */
+        .btn-verified { border-color: rgba(46, 204, 113, 0.4); }
+        .btn-verified.active { background: #2ecc71; color: #000; border-color: #2ecc71; }
+        
+        /* Scam Button Colorway */
+        .btn-fail { border-color: rgba(255, 77, 77, 0.4); }
+        .btn-fail.active { background: #ff4d4d; color: #000; border-color: #ff4d4d; }
 
         /* Layout Grids */
         .grid-container {
@@ -163,8 +165,8 @@
             padding: 14px; margin-top: auto; border-radius: 8px; text-decoration: none; 
             font-weight: 700; font-size: 0.95rem; transition: all 0.2s ease;
         }
-        .fail .btn { background: #1a1a1a; color: #666; }
-        .fail .btn:hover { background: #222; color: #fff; }
+        .fail .btn { background: #1a1a1a; color: #666; border: 1px solid #333; }
+        .fail .btn:hover { background: #ff4d4d; color: #000; border-color: #ff4d4d; }
         .pass .btn { background: #fff; color: #000; } 
         .pass .btn:hover { background: #e6e6e6; transform: scale(1.02); }
         .neutral .btn { background: #fff; color: #000; }
@@ -177,11 +179,11 @@
 <body>
 
 <div class="nav-menu">
-    <button class="nav-btn active" onclick="switchTab('teardowns')">Compare Gear</button>
-    <button class="nav-btn" onclick="switchTab('pass-list')">Verified Shop</button>
-    <button class="nav-btn" onclick="switchTab('fail-list')">Fail List</button>
-    <button class="nav-btn" onclick="switchTab('guides')">Guides</button>
-    <button class="nav-btn" onclick="switchTab('stealth')">Stealth Audio</button>
+    <button class="nav-btn btn-verified active" id="default-tab" onclick="switchTab('pass-list', this)">🟢 Verified Shop</button>
+    <button class="nav-btn btn-fail" onclick="switchTab('fail-list', this)">❌ Scam List</button>
+    <button class="nav-btn" onclick="switchTab('teardowns', this)">⚖️ Compare</button>
+    <button class="nav-btn" onclick="switchTab('guides', this)">📚 Guides</button>
+    <button class="nav-btn" onclick="switchTab('stealth', this)">🎧 Stealth Audio</button>
 </div>
 
 <div id="app-container"></div>
@@ -189,7 +191,8 @@
 <script>
 /**
  * THE DATABASE
- * Add your product text and image links here.
+ * Pro-Tip: Just keep adding new products at the BOTTOM of these lists. 
+ * The code will automatically reverse them so the newest always shows at the TOP.
  */
 const db = {
     comparisons: [
@@ -265,7 +268,9 @@ function renderCard(item, status) {
 }
 
 function renderComparisons() {
-    return db.comparisons.map(comp => `
+    // Reverses comparisons so the newest is at the top
+    const reversed = [...db.comparisons].reverse();
+    return reversed.map(comp => `
         <div class="comparison-wrapper">
             <div class="comparison-header">REPORT: ${comp.topic}</div>
             <div class="grid-container">
@@ -279,13 +284,17 @@ function renderComparisons() {
 
 function renderGrid(array, status) {
     if (array.length === 0) return `<p style="text-align:center; color:#666; margin-top:40px;">No items in this category yet.</p>`;
-    return `<div class="grid-container">` + array.map(item => renderCard(item, status)).join('') + `</div>`;
+    // Reverses standard grids so newest is at the top
+    const reversed = [...array].reverse();
+    return `<div class="grid-container">` + reversed.map(item => renderCard(item, status)).join('') + `</div>`;
 }
 
-// Tab Switching
-function switchTab(tabId) {
+// Tab Switching & Button Styling Logic
+function switchTab(tabId, clickedBtn) {
+    // Remove active class from all buttons
     document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
-    event.currentTarget.classList.add('active');
+    // Add active class to the clicked button
+    clickedBtn.classList.add('active');
 
     let html = '';
     if (tabId === 'teardowns') html = `<div class="single-column">${renderComparisons()}</div>`;
@@ -297,7 +306,11 @@ function switchTab(tabId) {
     container.innerHTML = html;
 }
 
-document.addEventListener("DOMContentLoaded", () => switchTab('teardowns'));
+// Loads the Verified Shop as the default view on startup
+document.addEventListener("DOMContentLoaded", () => {
+    const defaultBtn = document.getElementById('default-tab');
+    switchTab('pass-list', defaultBtn);
+});
 </script>
 </body>
 </html>
