@@ -5,13 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The QC Report | Verified Gear</title>
     <style>
-        /* Premium Glassmorphism Tech Styling */
         body {
             background-color: transparent; 
             color: #ffffff;
             font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
             margin: 0;
-            padding: 5px;
+            padding: 20px;
+        }
+
+        /* --- CENTERED APP CONTAINER --- */
+        #app-container, .glass-header, .nav-menu {
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         /* --- WIDE GLASS HEADER --- */
@@ -25,190 +31,106 @@
             display: flex;
             align-items: center;
             gap: 30px;
-            max-width: 1000px; /* Locks the maximum width */
-            margin: 0 auto 24px auto; /* Centers the header */
+            margin-bottom: 24px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
             box-sizing: border-box;
         }
 
         .header-avatar {
-            width: 140px; 
+            width: 120px; 
             height: auto;
             flex-shrink: 0;
             filter: drop-shadow(0 8px 16px rgba(0,0,0,0.6)); 
         }
 
-        .header-text-container {
-            display: flex;
-            flex-direction: column;
-        }
-
         .header-brand {
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             text-transform: uppercase;
             letter-spacing: 0.15em;
             color: #ffcc00; 
             font-weight: 800;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
         }
 
         .header-title {
-            font-size: 2.8rem;
+            font-size: 2.5rem;
             font-weight: 900;
-            margin: 0 0 12px 0;
-            line-height: 1.1;
+            margin: 0 0 8px 0;
             color: #ffffff;
-            letter-spacing: -0.02em;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
         }
 
         .header-desc {
-            font-size: 1rem;
+            font-size: 0.95rem;
             color: #bbbbbb;
-            line-height: 1.5;
             margin: 0;
-            max-width: 600px;
         }
 
-        /* Mobile Header Adjustments */
-        @media (max-width: 768px) {
-            .glass-header {
-                flex-direction: column;
-                text-align: center;
-                padding: 24px 20px;
-                gap: 20px;
-            }
-            .header-avatar { width: 110px; }
-            .header-title { font-size: 2.2rem; }
-        }
-
-        /* Navigation Menu - Glass Pills */
+        /* Navigation Menu */
         .nav-menu {
             display: flex;
             flex-wrap: wrap; 
             justify-content: center; 
             gap: 10px;
-            max-width: 1000px; /* Locks the maximum width */
-            margin: 10px auto 30px auto; /* Centers the menu */
+            margin-bottom: 30px;
             padding: 10px 0; 
-            width: 100%; 
-            box-sizing: border-box;
         }
 
         .nav-btn {
             background: rgba(20, 20, 20, 0.5); 
             backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
             color: #cccccc;
             border: 1px solid rgba(255, 255, 255, 0.1);
             font-size: 0.9rem;
             font-weight: 700;
-            padding: 12px 20px;
+            padding: 10px 18px;
             cursor: pointer;
             border-radius: 50px;
             transition: all 0.3s ease;
-            white-space: nowrap;
         }
         
-        .nav-btn:hover { background: rgba(40, 40, 40, 0.7); color: #ffffff; border-color: rgba(255, 255, 255, 0.3); }
-        .nav-btn.active { background: rgba(255, 255, 255, 0.9); color: #000000; border-color: #ffffff; }
+        .nav-btn:hover { background: rgba(40, 40, 40, 0.7); color: #ffffff; }
+        .nav-btn.active { background: #ffffff; color: #000000; }
+        .btn-verified.active { background: #2ecc71; border-color: #2ecc71; }
+        .btn-fail.active { background: #ff4d4d; border-color: #ff4d4d; }
 
-        .btn-verified { border-color: rgba(46, 204, 113, 0.3); }
-        .btn-verified.active { background: #2ecc71; color: #000; border-color: #2ecc71; }
-        
-        .btn-fail { border-color: rgba(255, 77, 77, 0.3); }
-        .btn-fail.active { background: #ff4d4d; color: #000; border-color: #ff4d4d; }
-
-        /* Layout Grids */
+        /* Smart Grid */
         .grid-container { 
             display: grid; 
-            grid-template-columns: 1fr 1fr; 
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); 
             gap: 24px; 
-            max-width: 1000px; /* Locks the maximum width */
-            margin: 0 auto; /* Centers the grid */
         }
-        .single-column { 
-            display: grid; 
-            grid-template-columns: 1fr; 
-            gap: 40px; 
-            max-width: 1000px; /* Locks the maximum width */
-            margin: 0 auto; /* Centers the column */
-        }
-        @media (max-width: 768px) { .grid-container { grid-template-columns: 1fr; gap: 24px; } }
+        .single-column { display: grid; gap: 40px; }
 
-        /* The VS Comparison Layout */
-        .comparison-wrapper {
-            background: rgba(10, 10, 10, 0.4);
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 16px;
-            padding: 24px;
-            position: relative;
-            box-sizing: border-box;
-        }
-        .comparison-header { text-align: center; font-weight: 800; font-size: 1.1rem; color: #fff; margin-bottom: 24px; text-transform: uppercase; letter-spacing: 0.05em; }
-        .vs-badge {
-            position: absolute; top: 55%; left: 50%; transform: translate(-50%, -50%);
-            background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(4px);
-            color: #fff; border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 50%;
-            width: 44px; height: 44px; display: flex; align-items: center; justify-content: center;
-            font-weight: 900; font-size: 0.85rem; z-index: 10;
-        }
-
-        /* Modern Shoppable Cards */
+        /* Cards */
         .card {
             background: rgba(18, 18, 18, 0.6);
             backdrop-filter: blur(12px);
             border-radius: 16px;
             overflow: hidden; 
-            display: flex; flex-direction: column;
             border: 1px solid rgba(255, 255, 255, 0.08);
-            transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+            transition: 0.2s;
         }
-        .card:hover { transform: translateY(-4px); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); }
-        .card.fail:hover { border-color: rgba(255, 77, 77, 0.6); }
-        .card.pass:hover { border-color: rgba(46, 204, 113, 0.6); }
-
-        .image-container { position: relative; width: 100%; height: 220px; background: rgba(0, 0, 0, 0.3); }
-        .product-image { width: 100%; height: 100%; object-fit: cover; opacity: 0.95; }
+        .card:hover { transform: translateY(-4px); border-color: rgba(255,255,255,0.2); }
+        .image-container { position: relative; height: 200px; }
+        .product-image { width: 100%; height: 100%; object-fit: cover; }
         
         .badge {
-            position: absolute; top: 12px; left: 12px; font-size: 0.75rem; font-weight: 800; letter-spacing: 0.05em;
-            padding: 6px 12px; border-radius: 50px; z-index: 2; box-shadow: 0 4px 10px rgba(0,0,0,0.5); backdrop-filter: blur(8px);
+            position: absolute; top: 12px; left: 12px; font-size: 0.7rem; font-weight: 800;
+            padding: 4px 10px; border-radius: 50px; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px);
         }
-        .fail .badge { background: rgba(255, 77, 77, 0.85); color: #fff; border: 1px solid rgba(255, 77, 77, 0.4); }
-        .pass .badge { background: rgba(46, 204, 113, 0.85); color: #000; border: 1px solid rgba(46, 204, 113, 0.4); }
-        .neutral .badge { background: rgba(255, 255, 255, 0.85); color: #000; }
 
-        .card-content { padding: 20px; display: flex; flex-direction: column; flex-grow: 1; }
-        .product-title { font-size: 1.15rem; font-weight: 700; margin: 0 0 8px 0; line-height: 1.3; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
-        .price-tag { font-size: 1.1rem; font-weight: 600; color: #fff; margin-bottom: 12px; }
-        .verdict-text { font-size: 0.9rem; line-height: 1.5; color: #bbbbbb; margin: 0 0 20px 0; }
-        
+        .card-content { padding: 20px; }
+        .product-title { font-size: 1.1rem; margin: 0 0 10px 0; }
         .btn {
-            display: flex; justify-content: center; align-items: center; gap: 8px;
-            padding: 14px; margin-top: auto; border-radius: 8px; text-decoration: none; 
-            font-weight: 700; font-size: 0.95rem; transition: all 0.2s ease;
+            display: block; text-align: center; padding: 12px; margin-top: 15px;
+            border-radius: 8px; text-decoration: none; font-weight: 700; background: #fff; color: #000;
         }
-        .fail .btn { background: rgba(255, 255, 255, 0.05); color: #888; border: 1px solid rgba(255, 255, 255, 0.1); }
-        .fail .btn:hover { background: rgba(255, 77, 77, 0.15); color: #ff4d4d; border-color: rgba(255, 77, 77, 0.5); }
-        .pass .btn { background: #ffffff; color: #000000; } 
-        .pass .btn:hover { background: #e6e6e6; transform: scale(1.02); }
-        .neutral .btn { background: rgba(255, 255, 255, 0.1); color: #fff; border: 1px solid rgba(255, 255, 255, 0.2); }
-        .neutral .btn:hover { background: rgba(255, 255, 255, 0.2); }
-
-        .tab-content { display: none; }
-        .tab-content.active { display: block; animation: fadeIn 0.4s ease; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
-<!-- WIDE GLASS HEADER -->
 <div class="glass-header">
-    <!-- Path updated to point directly to the main directory -->
-    <img src="avatar.png" alt="OneZapAway Avatar" class="header-avatar" id="avatar-img">
-    
+    <img src="avatar.png" alt="OneZapAway Avatar" class="header-avatar">
     <div class="header-text-container">
         <div class="header-brand">OneZapAway's</div>
         <h1 class="header-title">QC Report</h1>
@@ -227,116 +149,30 @@
 <div id="app-container"></div>
 
 <script>
-/**
- * THE DATABASE
- */
 const db = {
-    comparisons: [
-        {
-            topic: "15W Desk Lamps",
-            fail: {
-                name: "Viral '15W' Wood Lamp",
-                price: "$29.99",
-                image: "https://images.unsplash.com/photo-1517705008128-361805f42e86?q=80&w=600&auto=format&fit=crop", 
-                verdict: "Schematic check reveals max input of 5V/1A (5W). The 15W claim is a data fabrication.",
-                button: "View Fake Listing",
-                url: "#"
-            },
-            pass: {
-                name: "Verified Qi-Certified Lamp",
-                price: "$18.50",
-                image: "https://images.unsplash.com/photo-1580130732566-0ce91e84a205?q=80&w=600&auto=format&fit=crop", 
-                verdict: "Continuous 15W verified via chip analysis. Built with proper thermal dissipation.",
-                button: "🛒 Shop Verified",
-                url: "#"
-            }
-        }
-    ],
+    comparisons: [],
     passList: [
-        { 
-            name: "Heavy-Duty Surge Strip", 
-            price: "$34.99",
-            image: "https://images.unsplash.com/photo-1558227091-a583e73543b5?q=80&w=600&auto=format&fit=crop",
-            verdict: "Passed internal circuit testing. Legitimate joule rating verified.", 
-            button: "🛒 Buy on Amazon", 
-            url: "#" 
-        }
+        { name: "Redmi Buds 8 Pro", price: "$69.99", image: "https://via.placeholder.com/600x300", verdict: "Exceptional value with 40dB ANC.", button: "🛒 Shop Verified", url: "#" }
     ],
     failList: [],
     guides: [],
-    stealthAudio: [
-        { 
-            name: "Hidden Audio Hub", 
-            price: "$149.00",
-            image: "https://images.unsplash.com/photo-1545454675-3531b543be5d?q=80&w=600&auto=format&fit=crop",
-            verdict: "Curated, specialized audio gear designed to blend perfectly into your environment.", 
-            button: "View Details", 
-            url: "#" 
-        }
-    ]
+    stealthAudio: []
 };
 
-// Render Engine
-const container = document.getElementById('app-container');
-
 function renderCard(item, status) {
-    const badgeMap = { 'pass': '🟢 PASS', 'fail': '❌ FAIL', 'neutral': '📄 INFO' };
-    const priceHtml = item.price ? `<div class="price-tag">${item.price}</div>` : '';
-    
-    return `
-        <div class="card ${status}">
-            <div class="image-container">
-                <div class="badge">${badgeMap[status]}</div>
-                <img src="${item.image || 'https://via.placeholder.com/600x400/222/555?text=No+Image'}" class="product-image" alt="${item.name}">
-            </div>
-            <div class="card-content">
-                <h3 class="product-title">${item.name}</h3>
-                ${priceHtml}
-                <p class="verdict-text">${item.verdict}</p>
-                <a href="${item.url}" target="_blank" class="btn">${item.button}</a>
-            </div>
-        </div>
-    `;
+    const badge = status === 'pass' ? '🟢 PASS' : '❌ FAIL';
+    return `<div class="card"><div class="image-container"><div class="badge">${badge}</div><img src="${item.image}" class="product-image"></div><div class="card-content"><h3 class="product-title">${item.name}</h3><p>${item.verdict}</p><a href="${item.url}" class="btn">${item.button}</a></div></div>`;
 }
 
-function renderComparisons() {
-    const reversed = [...db.comparisons].reverse();
-    return reversed.map(comp => `
-        <div class="comparison-wrapper">
-            <div class="comparison-header">REPORT: ${comp.topic}</div>
-            <div class="grid-container">
-                ${renderCard(comp.fail, 'fail')}
-                ${renderCard(comp.pass, 'pass')}
-            </div>
-            <div class="vs-badge">VS</div>
-        </div>
-    `).join('');
+function switchTab(tabId, btn) {
+    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const container = document.getElementById('app-container');
+    const data = db[tabId === 'teardowns' ? 'comparisons' : tabId] || [];
+    container.innerHTML = `<div class="grid-container">${data.map(i => renderCard(i, tabId === 'pass-list' ? 'pass' : 'fail')).join('')}</div>`;
 }
 
-function renderGrid(array, status) {
-    if (array.length === 0) return `<p style="text-align:center; color:#888; margin-top:40px; text-shadow: 0 1px 2px rgba(0,0,0,0.8);">No items in this category yet.</p>`;
-    const reversed = [...array].reverse();
-    return `<div class="grid-container">` + reversed.map(item => renderCard(item, status)).join('') + `</div>`;
-}
-
-function switchTab(tabId, clickedBtn) {
-    document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
-    clickedBtn.classList.add('active');
-
-    let html = '';
-    if (tabId === 'teardowns') html = `<div class="single-column">${renderComparisons()}</div>`;
-    if (tabId === 'pass-list') html = renderGrid(db.passList, 'pass');
-    if (tabId === 'fail-list') html = renderGrid(db.failList, 'fail');
-    if (tabId === 'guides') html = renderGrid(db.guides, 'neutral');
-    if (tabId === 'stealth') html = renderGrid(db.stealthAudio, 'neutral');
-
-    container.innerHTML = html;
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-    const defaultBtn = document.getElementById('default-tab');
-    switchTab('pass-list', defaultBtn);
-});
+document.addEventListener("DOMContentLoaded", () => switchTab('pass-list', document.getElementById('default-tab')));
 </script>
 </body>
 </html>
