@@ -25,15 +25,17 @@
             display: flex;
             align-items: center;
             gap: 30px;
-            margin-bottom: 24px;
+            max-width: 1000px; /* Locks the maximum width */
+            margin: 0 auto 24px auto; /* Centers the header */
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            box-sizing: border-box;
         }
 
         .header-avatar {
             width: 140px; 
             height: auto;
             flex-shrink: 0;
-            filter: drop-shadow(0 8px 16px rgba(0,0,0,0.6)); /* Makes the transparent PNG pop */
+            filter: drop-shadow(0 8px 16px rgba(0,0,0,0.6)); 
         }
 
         .header-text-container {
@@ -45,7 +47,7 @@
             font-size: 0.95rem;
             text-transform: uppercase;
             letter-spacing: 0.15em;
-            color: #ffcc00; /* Safety Yellow to match the inspector jacket */
+            color: #ffcc00; 
             font-weight: 800;
             margin-bottom: 6px;
         }
@@ -76,12 +78,8 @@
                 padding: 24px 20px;
                 gap: 20px;
             }
-            .header-avatar {
-                width: 110px;
-            }
-            .header-title {
-                font-size: 2.2rem;
-            }
+            .header-avatar { width: 110px; }
+            .header-title { font-size: 2.2rem; }
         }
 
         /* Navigation Menu - Glass Pills */
@@ -90,7 +88,8 @@
             flex-wrap: wrap; 
             justify-content: center; 
             gap: 10px;
-            margin-bottom: 30px;
+            max-width: 1000px; /* Locks the maximum width */
+            margin: 10px auto 30px auto; /* Centers the menu */
             padding: 10px 0; 
             width: 100%; 
             box-sizing: border-box;
@@ -121,8 +120,20 @@
         .btn-fail.active { background: #ff4d4d; color: #000; border-color: #ff4d4d; }
 
         /* Layout Grids */
-        .grid-container { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
-        .single-column { display: grid; grid-template-columns: 1fr; gap: 40px; }
+        .grid-container { 
+            display: grid; 
+            grid-template-columns: 1fr 1fr; 
+            gap: 24px; 
+            max-width: 1000px; /* Locks the maximum width */
+            margin: 0 auto; /* Centers the grid */
+        }
+        .single-column { 
+            display: grid; 
+            grid-template-columns: 1fr; 
+            gap: 40px; 
+            max-width: 1000px; /* Locks the maximum width */
+            margin: 0 auto; /* Centers the column */
+        }
         @media (max-width: 768px) { .grid-container { grid-template-columns: 1fr; gap: 24px; } }
 
         /* The VS Comparison Layout */
@@ -133,6 +144,7 @@
             border-radius: 16px;
             padding: 24px;
             position: relative;
+            box-sizing: border-box;
         }
         .comparison-header { text-align: center; font-weight: 800; font-size: 1.1rem; color: #fff; margin-bottom: 24px; text-transform: uppercase; letter-spacing: 0.05em; }
         .vs-badge {
@@ -192,9 +204,9 @@
 </head>
 <body>
 
-<!-- THE NEW GLASS HEADER -->
+<!-- WIDE GLASS HEADER -->
 <div class="glass-header">
-    <!-- Replace this URL with the direct link to your transparent avatar -->
+    <!-- Path updated to point directly to the main directory -->
     <img src="avatar.png" alt="OneZapAway Avatar" class="header-avatar" id="avatar-img">
     
     <div class="header-text-container">
