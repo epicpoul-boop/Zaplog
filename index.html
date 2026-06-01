@@ -5,20 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The QC Report | Verified Gear</title>
     <style>
-        /* Premium Dark E-Commerce Styling */
+        /* Premium Glassmorphism Tech Styling */
         body {
-            background-color: transparent;
+            background-color: transparent; /* Lets Carrd background through */
             color: #ffffff;
             font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
             margin: 0;
             padding: 5px;
         }
 
-        /* Navigation Menu - Wrap & Center for Mobile */
+        /* Navigation Menu - Glass Pills */
         .nav-menu {
             display: flex;
-            flex-wrap: wrap; /* Dette tillater knappene å hoppe til neste linje! */
-            justify-content: center; /* Sentrerer knappene vakkert på skjermen */
+            flex-wrap: wrap; 
+            justify-content: center; 
             gap: 10px;
             margin-top: 10px; 
             margin-bottom: 30px;
@@ -27,31 +27,38 @@
             box-sizing: border-box;
         }
 
-        /* Standard Button Styling */
         .nav-btn {
-            background: #111111; 
-            color: #aaaaaa;
-            border: 1px solid #333333;
+            /* Glass background */
+            background: rgba(20, 20, 20, 0.5); 
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            color: #cccccc;
+            border: 1px solid rgba(255, 255, 255, 0.1);
             font-size: 0.9rem;
             font-weight: 700;
             padding: 12px 20px;
             cursor: pointer;
             border-radius: 50px;
-            transition: all 0.2s ease;
+            transition: all 0.3s ease;
             white-space: nowrap;
         }
         
-        .nav-btn:hover { background: #222222; border-color: #666666; color: #ffffff; }
+        .nav-btn:hover { 
+            background: rgba(40, 40, 40, 0.7); 
+            color: #ffffff; 
+            border-color: rgba(255, 255, 255, 0.3);
+        }
         
-        /* Distinctive Button Colors & Active States */
-        .nav-btn.active { background: #ffffff; color: #000000; border-color: #ffffff; }
+        .nav-btn.active { 
+            background: rgba(255, 255, 255, 0.9); 
+            color: #000000; 
+            border-color: #ffffff; 
+        }
 
-        /* Verified Button Colorway */
-        .btn-verified { border-color: rgba(46, 204, 113, 0.4); }
+        .btn-verified { border-color: rgba(46, 204, 113, 0.3); }
         .btn-verified.active { background: #2ecc71; color: #000; border-color: #2ecc71; }
         
-        /* Scam Button Colorway */
-        .btn-fail { border-color: rgba(255, 77, 77, 0.4); }
+        .btn-fail { border-color: rgba(255, 77, 77, 0.3); }
         .btn-fail.active { background: #ff4d4d; color: #000; border-color: #ff4d4d; }
 
         /* Layout Grids */
@@ -71,10 +78,12 @@
             .grid-container { grid-template-columns: 1fr; gap: 24px; }
         }
 
-        /* The VS Comparison Layout */
+        /* The VS Comparison Layout - Glass Panel */
         .comparison-wrapper {
-            background: #080808;
-            border: 1px solid #222;
+            background: rgba(10, 10, 10, 0.4);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 16px;
             padding: 24px;
             position: relative;
@@ -87,39 +96,47 @@
 
         .vs-badge {
             position: absolute; top: 55%; left: 50%; transform: translate(-50%, -50%);
-            background: #000; color: #fff; border: 2px solid #333; border-radius: 50%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(4px);
+            color: #fff; border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 50%;
             width: 44px; height: 44px; display: flex; align-items: center; justify-content: center;
             font-weight: 900; font-size: 0.85rem; z-index: 10;
         }
 
-        /* Modern Shoppable Cards */
+        /* Modern Shoppable Cards - Frosted Glass */
         .card {
-            background: #121212;
+            background: rgba(18, 18, 18, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             border-radius: 16px;
             overflow: hidden; 
             display: flex;
             flex-direction: column;
-            border: 1px solid #222;
-            transition: transform 0.2s ease, border-color 0.2s ease;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
         }
         
-        .card:hover { transform: translateY(-4px); }
-        .card.fail:hover { border-color: rgba(255, 77, 77, 0.5); }
-        .card.pass:hover { border-color: rgba(46, 204, 113, 0.5); }
+        .card:hover { 
+            transform: translateY(-4px); 
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+        
+        .card.fail:hover { border-color: rgba(255, 77, 77, 0.6); }
+        .card.pass:hover { border-color: rgba(46, 204, 113, 0.6); }
 
         /* Image Container & Floating Badge */
         .image-container {
             position: relative;
             width: 100%;
             height: 220px;
-            background: #0a0a0a;
+            background: rgba(0, 0, 0, 0.3);
         }
 
         .product-image {
             width: 100%;
             height: 100%;
             object-fit: cover; 
-            opacity: 0.9;
+            opacity: 0.95;
         }
 
         .badge {
@@ -133,12 +150,13 @@
             border-radius: 50px;
             z-index: 2;
             box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-            backdrop-filter: blur(4px);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
         }
 
-        .fail .badge { background: rgba(255, 77, 77, 0.9); color: #fff; }
-        .pass .badge { background: rgba(46, 204, 113, 0.9); color: #000; }
-        .neutral .badge { background: rgba(255, 255, 255, 0.9); color: #000; }
+        .fail .badge { background: rgba(255, 77, 77, 0.85); color: #fff; border: 1px solid rgba(255, 77, 77, 0.4); }
+        .pass .badge { background: rgba(46, 204, 113, 0.85); color: #000; border: 1px solid rgba(46, 204, 113, 0.4); }
+        .neutral .badge { background: rgba(255, 255, 255, 0.85); color: #000; }
 
         /* Card Content Area */
         .card-content {
@@ -148,7 +166,7 @@
             flex-grow: 1;
         }
 
-        .product-title { font-size: 1.15rem; font-weight: 700; margin: 0 0 8px 0; line-height: 1.3; }
+        .product-title { font-size: 1.15rem; font-weight: 700; margin: 0 0 8px 0; line-height: 1.3; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
         
         .price-tag {
             font-size: 1.1rem;
@@ -157,7 +175,7 @@
             margin-bottom: 12px;
         }
 
-        .verdict-text { font-size: 0.9rem; line-height: 1.5; color: #999; margin: 0 0 20px 0; }
+        .verdict-text { font-size: 0.9rem; line-height: 1.5; color: #bbbbbb; margin: 0 0 20px 0; }
         
         /* Shoppable Buttons */
         .btn {
@@ -165,15 +183,16 @@
             padding: 14px; margin-top: auto; border-radius: 8px; text-decoration: none; 
             font-weight: 700; font-size: 0.95rem; transition: all 0.2s ease;
         }
-        .fail .btn { background: #1a1a1a; color: #666; border: 1px solid #333; }
-        .fail .btn:hover { background: #ff4d4d; color: #000; border-color: #ff4d4d; }
-        .pass .btn { background: #fff; color: #000; } 
+        .fail .btn { background: rgba(255, 255, 255, 0.05); color: #888; border: 1px solid rgba(255, 255, 255, 0.1); }
+        .fail .btn:hover { background: rgba(255, 77, 77, 0.15); color: #ff4d4d; border-color: rgba(255, 77, 77, 0.5); }
+        .pass .btn { background: #ffffff; color: #000000; } 
         .pass .btn:hover { background: #e6e6e6; transform: scale(1.02); }
-        .neutral .btn { background: #fff; color: #000; }
+        .neutral .btn { background: rgba(255, 255, 255, 0.1); color: #fff; border: 1px solid rgba(255, 255, 255, 0.2); }
+        .neutral .btn:hover { background: rgba(255, 255, 255, 0.2); }
 
         .tab-content { display: none; }
-        .tab-content.active { display: block; animation: fadeIn 0.3s ease; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        .tab-content.active { display: block; animation: fadeIn 0.4s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
@@ -191,8 +210,6 @@
 <script>
 /**
  * THE DATABASE
- * Pro-Tip: Just keep adding new products at the BOTTOM of these lists. 
- * The code will automatically reverse them so the newest always shows at the TOP.
  */
 const db = {
     comparisons: [
@@ -229,9 +246,7 @@ const db = {
     ],
 
     failList: [],
-    
     guides: [],
-    
     stealthAudio: [
         { 
             name: "Hidden Audio Hub", 
@@ -255,7 +270,7 @@ function renderCard(item, status) {
         <div class="card ${status}">
             <div class="image-container">
                 <div class="badge">${badgeMap[status]}</div>
-                <img src="${item.image || 'https://via.placeholder.com/600x400/111/333?text=No+Image'}" class="product-image" alt="${item.name}">
+                <img src="${item.image || 'https://via.placeholder.com/600x400/222/555?text=No+Image'}" class="product-image" alt="${item.name}">
             </div>
             <div class="card-content">
                 <h3 class="product-title">${item.name}</h3>
@@ -268,7 +283,6 @@ function renderCard(item, status) {
 }
 
 function renderComparisons() {
-    // Reverses comparisons so the newest is at the top
     const reversed = [...db.comparisons].reverse();
     return reversed.map(comp => `
         <div class="comparison-wrapper">
@@ -283,17 +297,13 @@ function renderComparisons() {
 }
 
 function renderGrid(array, status) {
-    if (array.length === 0) return `<p style="text-align:center; color:#666; margin-top:40px;">No items in this category yet.</p>`;
-    // Reverses standard grids so newest is at the top
+    if (array.length === 0) return `<p style="text-align:center; color:#888; margin-top:40px; text-shadow: 0 1px 2px rgba(0,0,0,0.8);">No items in this category yet.</p>`;
     const reversed = [...array].reverse();
     return `<div class="grid-container">` + reversed.map(item => renderCard(item, status)).join('') + `</div>`;
 }
 
-// Tab Switching & Button Styling Logic
 function switchTab(tabId, clickedBtn) {
-    // Remove active class from all buttons
     document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
-    // Add active class to the clicked button
     clickedBtn.classList.add('active');
 
     let html = '';
@@ -306,7 +316,6 @@ function switchTab(tabId, clickedBtn) {
     container.innerHTML = html;
 }
 
-// Loads the Verified Shop as the default view on startup
 document.addEventListener("DOMContentLoaded", () => {
     const defaultBtn = document.getElementById('default-tab');
     switchTab('pass-list', defaultBtn);
