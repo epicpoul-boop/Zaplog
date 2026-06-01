@@ -7,11 +7,81 @@
     <style>
         /* Premium Glassmorphism Tech Styling */
         body {
-            background-color: transparent; /* Lets Carrd background through */
+            background-color: transparent; 
             color: #ffffff;
             font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
             margin: 0;
             padding: 5px;
+        }
+
+        /* --- WIDE GLASS HEADER --- */
+        .glass-header {
+            background: rgba(18, 18, 18, 0.6);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 30px 40px;
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            margin-bottom: 24px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .header-avatar {
+            width: 140px; 
+            height: auto;
+            flex-shrink: 0;
+            filter: drop-shadow(0 8px 16px rgba(0,0,0,0.6)); /* Makes the transparent PNG pop */
+        }
+
+        .header-text-container {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header-brand {
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: #ffcc00; /* Safety Yellow to match the inspector jacket */
+            font-weight: 800;
+            margin-bottom: 6px;
+        }
+
+        .header-title {
+            font-size: 2.8rem;
+            font-weight: 900;
+            margin: 0 0 12px 0;
+            line-height: 1.1;
+            color: #ffffff;
+            letter-spacing: -0.02em;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .header-desc {
+            font-size: 1rem;
+            color: #bbbbbb;
+            line-height: 1.5;
+            margin: 0;
+            max-width: 600px;
+        }
+
+        /* Mobile Header Adjustments */
+        @media (max-width: 768px) {
+            .glass-header {
+                flex-direction: column;
+                text-align: center;
+                padding: 24px 20px;
+                gap: 20px;
+            }
+            .header-avatar {
+                width: 110px;
+            }
+            .header-title {
+                font-size: 2.2rem;
+            }
         }
 
         /* Navigation Menu - Glass Pills */
@@ -20,7 +90,6 @@
             flex-wrap: wrap; 
             justify-content: center; 
             gap: 10px;
-            margin-top: 10px; 
             margin-bottom: 30px;
             padding: 10px 0; 
             width: 100%; 
@@ -28,7 +97,6 @@
         }
 
         .nav-btn {
-            /* Glass background */
             background: rgba(20, 20, 20, 0.5); 
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
@@ -43,17 +111,8 @@
             white-space: nowrap;
         }
         
-        .nav-btn:hover { 
-            background: rgba(40, 40, 40, 0.7); 
-            color: #ffffff; 
-            border-color: rgba(255, 255, 255, 0.3);
-        }
-        
-        .nav-btn.active { 
-            background: rgba(255, 255, 255, 0.9); 
-            color: #000000; 
-            border-color: #ffffff; 
-        }
+        .nav-btn:hover { background: rgba(40, 40, 40, 0.7); color: #ffffff; border-color: rgba(255, 255, 255, 0.3); }
+        .nav-btn.active { background: rgba(255, 255, 255, 0.9); color: #000000; border-color: #ffffff; }
 
         .btn-verified { border-color: rgba(46, 204, 113, 0.3); }
         .btn-verified.active { background: #2ecc71; color: #000; border-color: #2ecc71; }
@@ -62,122 +121,58 @@
         .btn-fail.active { background: #ff4d4d; color: #000; border-color: #ff4d4d; }
 
         /* Layout Grids */
-        .grid-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 24px;
-        }
+        .grid-container { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+        .single-column { display: grid; grid-template-columns: 1fr; gap: 40px; }
+        @media (max-width: 768px) { .grid-container { grid-template-columns: 1fr; gap: 24px; } }
 
-        .single-column {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 40px;
-        }
-
-        @media (max-width: 768px) {
-            .grid-container { grid-template-columns: 1fr; gap: 24px; }
-        }
-
-        /* The VS Comparison Layout - Glass Panel */
+        /* The VS Comparison Layout */
         .comparison-wrapper {
             background: rgba(10, 10, 10, 0.4);
             backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
             border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 16px;
             padding: 24px;
             position: relative;
         }
-
-        .comparison-header {
-            text-align: center; font-weight: 800; font-size: 1.1rem; color: #fff;
-            margin-bottom: 24px; text-transform: uppercase; letter-spacing: 0.05em;
-        }
-
+        .comparison-header { text-align: center; font-weight: 800; font-size: 1.1rem; color: #fff; margin-bottom: 24px; text-transform: uppercase; letter-spacing: 0.05em; }
         .vs-badge {
             position: absolute; top: 55%; left: 50%; transform: translate(-50%, -50%);
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(4px);
+            background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(4px);
             color: #fff; border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 50%;
             width: 44px; height: 44px; display: flex; align-items: center; justify-content: center;
             font-weight: 900; font-size: 0.85rem; z-index: 10;
         }
 
-        /* Modern Shoppable Cards - Frosted Glass */
+        /* Modern Shoppable Cards */
         .card {
             background: rgba(18, 18, 18, 0.6);
             backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
             border-radius: 16px;
             overflow: hidden; 
-            display: flex;
-            flex-direction: column;
+            display: flex; flex-direction: column;
             border: 1px solid rgba(255, 255, 255, 0.08);
             transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
         }
-        
-        .card:hover { 
-            transform: translateY(-4px); 
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-        }
-        
+        .card:hover { transform: translateY(-4px); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); }
         .card.fail:hover { border-color: rgba(255, 77, 77, 0.6); }
         .card.pass:hover { border-color: rgba(46, 204, 113, 0.6); }
 
-        /* Image Container & Floating Badge */
-        .image-container {
-            position: relative;
-            width: 100%;
-            height: 220px;
-            background: rgba(0, 0, 0, 0.3);
-        }
-
-        .product-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover; 
-            opacity: 0.95;
-        }
-
+        .image-container { position: relative; width: 100%; height: 220px; background: rgba(0, 0, 0, 0.3); }
+        .product-image { width: 100%; height: 100%; object-fit: cover; opacity: 0.95; }
+        
         .badge {
-            position: absolute;
-            top: 12px;
-            left: 12px;
-            font-size: 0.75rem;
-            font-weight: 800;
-            letter-spacing: 0.05em;
-            padding: 6px 12px;
-            border-radius: 50px;
-            z-index: 2;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
+            position: absolute; top: 12px; left: 12px; font-size: 0.75rem; font-weight: 800; letter-spacing: 0.05em;
+            padding: 6px 12px; border-radius: 50px; z-index: 2; box-shadow: 0 4px 10px rgba(0,0,0,0.5); backdrop-filter: blur(8px);
         }
-
         .fail .badge { background: rgba(255, 77, 77, 0.85); color: #fff; border: 1px solid rgba(255, 77, 77, 0.4); }
         .pass .badge { background: rgba(46, 204, 113, 0.85); color: #000; border: 1px solid rgba(46, 204, 113, 0.4); }
         .neutral .badge { background: rgba(255, 255, 255, 0.85); color: #000; }
 
-        /* Card Content Area */
-        .card-content {
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            flex-grow: 1;
-        }
-
+        .card-content { padding: 20px; display: flex; flex-direction: column; flex-grow: 1; }
         .product-title { font-size: 1.15rem; font-weight: 700; margin: 0 0 8px 0; line-height: 1.3; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
-        
-        .price-tag {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: #fff;
-            margin-bottom: 12px;
-        }
-
+        .price-tag { font-size: 1.1rem; font-weight: 600; color: #fff; margin-bottom: 12px; }
         .verdict-text { font-size: 0.9rem; line-height: 1.5; color: #bbbbbb; margin: 0 0 20px 0; }
         
-        /* Shoppable Buttons */
         .btn {
             display: flex; justify-content: center; align-items: center; gap: 8px;
             padding: 14px; margin-top: auto; border-radius: 8px; text-decoration: none; 
@@ -196,6 +191,18 @@
     </style>
 </head>
 <body>
+
+<!-- THE NEW GLASS HEADER -->
+<div class="glass-header">
+    <!-- Replace this URL with the direct link to your transparent avatar -->
+    <img src="https://via.placeholder.com/150/222/FFF?text=Avatar" alt="OneZapAway Avatar" class="header-avatar" id="avatar-img">
+    
+    <div class="header-text-container">
+        <div class="header-brand">OneZapAway's</div>
+        <h1 class="header-title">QC Report</h1>
+        <p class="header-desc">Independent spec verification and hardware teardowns. We calculate the real factory data so you don't waste money on marketing lies.</p>
+    </div>
+</div>
 
 <div class="nav-menu">
     <button class="nav-btn btn-verified active" id="default-tab" onclick="switchTab('pass-list', this)">🟢 Verified Shop</button>
@@ -233,7 +240,6 @@ const db = {
             }
         }
     ],
-
     passList: [
         { 
             name: "Heavy-Duty Surge Strip", 
@@ -244,7 +250,6 @@ const db = {
             url: "#" 
         }
     ],
-
     failList: [],
     guides: [],
     stealthAudio: [
