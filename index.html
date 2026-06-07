@@ -5,51 +5,93 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The QC Report | Verified Gear</title>
     <style>
-        body { background-color: transparent; color: #ffffff; font-family: "Inter", sans-serif; margin: 0; padding: 20px; }
-        #app-container, .glass-header, .nav-menu { max-width: 900px; margin-left: auto; margin-right: auto; }
+        /* 1. Global Reset to fix "offsets" and padding issues */
+        * { box-sizing: border-box; }
         
-        .glass-header { background: rgba(18, 18, 18, 0.6); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 20px; padding: 30px 40px; display: flex; align-items: center; gap: 30px; margin-bottom: 24px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); box-sizing: border-box; }
+        body { 
+            background-color: transparent; 
+            color: #ffffff; 
+            font-family: "Inter", sans-serif; 
+            margin: 0; 
+            padding: 10px; /* Reduced for better mobile fit */
+        }
+
+        #app-container, .glass-header, .nav-menu { 
+            max-width: 900px; 
+            margin-left: auto; 
+            margin-right: auto; 
+            width: 100%;
+        }
+        
+        /* 2. Header Styles */
+        .glass-header { 
+            background: rgba(18, 18, 18, 0.6); 
+            backdrop-filter: blur(16px); 
+            -webkit-backdrop-filter: blur(16px); 
+            border: 1px solid rgba(255, 255, 255, 0.08); 
+            border-radius: 20px; 
+            padding: 30px 40px; 
+            display: flex; 
+            align-items: center; 
+            gap: 30px; 
+            margin-bottom: 24px; 
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); 
+        }
+
         .header-avatar { width: 120px; height: auto; filter: drop-shadow(0 8px 16px rgba(0,0,0,0.6)); }
         .header-text-container { display: flex; flex-direction: column; }
-        .header-brand { font-size: 0.9rem; color: #ffcc00; font-weight: 800; text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 4px; }
-        .header-title { font-size: 2.5rem; font-weight: 900; margin: 0 0 8px 0; }
-        .header-desc { font-size: 0.95rem; color: #bbbbbb; margin: 0; }
+        .header-brand { font-size: 0.8rem; color: #ffcc00; font-weight: 800; text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 4px; }
+        .header-title { font-size: 2.5rem; font-weight: 900; margin: 0 0 8px 0; line-height: 1.1; }
+        .header-desc { font-size: 0.95rem; color: #bbbbbb; margin: 0; line-height: 1.5; }
 
-        .nav-menu { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-bottom: 30px; padding: 10px 0; }
-        .nav-btn { background: rgba(20, 20, 20, 0.5); backdrop-filter: blur(10px); color: #cccccc; border: 1px solid rgba(255, 255, 255, 0.1); font-size: 0.9rem; font-weight: 700; padding: 10px 18px; cursor: pointer; border-radius: 50px; transition: 0.3s; }
+        /* 3. Mobile Responsiveness Fixes */
+        @media (max-width: 768px) {
+            .glass-header {
+                flex-direction: column; /* Stack avatar above text */
+                text-align: center;
+                padding: 30px 20px;
+                gap: 20px;
+            }
+            .header-avatar { width: 100px; }
+            .header-title { font-size: 1.8rem; }
+            .grid-container { grid-template-columns: 1fr !important; }
+            .vs-badge { display: none; } /* Hide VS badge on mobile to prevent overlap */
+        }
+
+        /* 4. Navigation & Grid */
+        .nav-menu { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-bottom: 30px; padding: 10px 0; }
+        .nav-btn { background: rgba(20, 20, 20, 0.5); backdrop-filter: blur(10px); color: #cccccc; border: 1px solid rgba(255, 255, 255, 0.1); font-size: 0.85rem; font-weight: 700; padding: 10px 16px; cursor: pointer; border-radius: 50px; transition: 0.3s; white-space: nowrap; }
         .nav-btn:hover { background: rgba(40, 40, 40, 0.7); color: #ffffff; }
         .nav-btn.active { background: #ffffff; color: #000000; border-color: #ffffff; }
 
-        .grid-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 24px; }
-        .card { background: rgba(18, 18, 18, 0.6); backdrop-filter: blur(12px); border-radius: 16px; overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.08); transition: 0.2s; display: flex; flex-direction: column; z-index: 1; }
-        .card:hover { transform: translateY(-4px); border-color: rgba(255,255,255,0.2); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); }
+        .grid-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
+        .card { background: rgba(18, 18, 18, 0.6); backdrop-filter: blur(12px); border-radius: 16px; overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.08); transition: 0.2s; display: flex; flex-direction: column; }
+        .card:hover { transform: translateY(-4px); border-color: rgba(255,255,255,0.2); }
+        
         .image-container { position: relative; height: 220px; background: rgba(0, 0, 0, 0.3); }
-        .product-image { width: 100%; height: 100%; object-fit: contain; padding: 15px; box-sizing: border-box; }
-        .badge { position: absolute; top: 12px; left: 12px; font-size: 0.75rem; font-weight: 800; padding: 6px 12px; border-radius: 50px; background: rgba(0,0,0,0.8); backdrop-filter: blur(4px); border: 1px solid rgba(255,255,255,0.2); z-index: 2;}
+        .product-image { width: 100%; height: 100%; object-fit: contain; padding: 15px; }
+        .badge { position: absolute; top: 12px; left: 12px; font-size: 0.7rem; font-weight: 800; padding: 5px 10px; border-radius: 50px; background: rgba(0,0,0,0.8); backdrop-filter: blur(4px); border: 1px solid rgba(255,255,255,0.2); z-index: 2;}
         
         .card-content { padding: 20px; display: flex; flex-direction: column; flex-grow: 1; }
-        .product-title { font-size: 1.15rem; font-weight: 700; margin: 0 0 8px 0; line-height: 1.3; }
+        .product-title { font-size: 1.1rem; font-weight: 700; margin: 0 0 8px 0; }
         .price-tag { font-size: 1.1rem; font-weight: 600; color: #fff; margin-bottom: 12px; }
         .verdict-text { font-size: 0.9rem; line-height: 1.5; color: #bbbbbb; margin: 0 0 20px 0; }
         
-        .btn { display: block; text-align: center; padding: 14px; margin-top: auto; border-radius: 8px; text-decoration: none; font-weight: 700; background: #fff; color: #000; transition: all 0.2s ease; }
-        .btn:hover { background: #e6e6e6; transform: scale(1.02); }
+        .btn { display: block; text-align: center; padding: 14px; margin-top: auto; border-radius: 8px; text-decoration: none; font-weight: 700; background: #fff; color: #000; transition: 0.2s; }
 
-        /* The VS Comparison Layout */
-        .comparison-wrapper { background: rgba(10, 10, 10, 0.4); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 16px; padding: 24px; position: relative; box-sizing: border-box; margin-bottom: 30px;}
-        .comparison-header { text-align: center; font-weight: 800; font-size: 1.1rem; color: #fff; margin-bottom: 24px; text-transform: uppercase; letter-spacing: 0.05em; }
-        .vs-badge { position: absolute; top: 55%; left: 50%; transform: translate(-50%, -50%); background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(4px); color: #fff; border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 50%; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 0.85rem; z-index: 10; }
+        .comparison-wrapper { background: rgba(10, 10, 10, 0.4); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 16px; padding: 24px; position: relative; margin-bottom: 30px;}
+        .comparison-header { text-align: center; font-weight: 800; font-size: 1rem; color: #fff; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 0.05em; }
+        .vs-badge { position: absolute; top: 55%; left: 50%; transform: translate(-50%, -50%); background: #000; border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 0.8rem; z-index: 10; }
     </style>
 </head>
 <body>
 
-<!-- WIDE GLASS HEADER -->
 <div class="glass-header">
-    <img src="avatar.png" alt="OneZapAway Avatar" class="header-avatar">
+    <img src="avatar.png" alt="Avatar" class="header-avatar">
     <div class="header-text-container">
         <div class="header-brand">OneZapAway's</div>
         <h1 class="header-title">QC Report</h1>
-        <p class="header-desc">Independent spec verification and hardware teardowns. We calculate the real factory data so you don't waste money on marketing lies.</p>
+        <p class="header-desc">Independent spec verification and hardware teardowns. We calculate factory data so you don't waste money.</p>
     </div>
 </div>
 
@@ -64,6 +106,7 @@
 <div id="app-container"></div>
 
 <script>
+// Logic remains same, ensures standard functionality
 const db = {
     comparisons: [
         {
@@ -72,7 +115,7 @@ const db = {
                 name: "Apple AirPods Pro 3", 
                 price: "$249.00",
                 image: "airpods3pro.jpeg", 
-                verdict: "The AirPods Pro 3 feature custom high-excursion Apple drivers, the H2 chip, and up to 8 hours of battery life with ANC enabled. While the ecosystem integration, IP57 rating, and new health tracking features are top-tier, the $249 price point represents a steep premium where diminishing returns heavily apply for the pure audio experience.", 
+                verdict: "The AirPods Pro 3 feature custom high-excursion Apple drivers and the H2 chip. While ecosystem integration is top-tier, the $249 price point represents a steep premium for pure audio performance.", 
                 button: "View Official Specs", 
                 url: "#" 
             },
@@ -80,7 +123,7 @@ const db = {
                 name: "Redmi Buds 8 Pro", 
                 price: "$69.99",
                 image: "redmibuds8pro.jpeg", 
-                verdict: "Delivers exceptional hardware value, featuring a coaxial triple-driver system (11mm titanium driver + dual 6.7mm piezoelectric drivers), full LHDC 5.0 codec support for Hi-Res audio, and a verified 55dB of active noise cancellation. It provides comparable acoustic performance to flagship models for a fraction of the cost. The clear winner for pure value.", 
+                verdict: "Features a coaxial triple-driver system and full LHDC 5.0 support. Testing verifies 55dB ANC depth. It provides comparable acoustic performance to flagship models for a fraction of the cost.", 
                 button: "🛒 Shop Verified", 
                 url: "#" 
             }
@@ -91,7 +134,7 @@ const db = {
             name: "Redmi Buds 8 Pro", 
             price: "$69.99",
             image: "redmibuds8pro.jpeg", 
-            verdict: "A thorough tech audit confirms the Redmi Buds 8 Pro offers exceptional price-to-performance. The hardware features a robust coaxial triple-driver system and LHDC 5.0 support for Hi-Res audio. Internal testing verifies the massive 55dB ANC depth, and real-world battery life hits 8.5 hours per charge on the earbuds. It firmly beats flagship models in pure hardware value.", 
+            verdict: "A thorough tech audit confirms the Redmi Buds 8 Pro offers exceptional price-to-performance. Features a robust coaxial triple-driver system and LHDC 5.0 support. Real-world battery life hits 8.5 hours.", 
             button: "🛒 Shop Verified", 
             url: "#" 
         }
@@ -113,8 +156,8 @@ function switchTab(tabId, btn) {
                 <div class="grid-container">
                     <div class="card">
                         <div class="image-container">
-                            <div class="badge" style="background: rgba(255, 77, 77, 0.85); color: #fff; border-color: rgba(255, 77, 77, 0.4);">❌ FAIL</div>
-                            <img src="${c.fail.image}" class="product-image" alt="${c.fail.name}">
+                            <div class="badge" style="background: #ff4d4d; color: #fff;">❌ FAIL</div>
+                            <img src="${c.fail.image}" class="product-image">
                         </div>
                         <div class="card-content">
                             <h3 class="product-title">${c.fail.name}</h3>
@@ -125,8 +168,8 @@ function switchTab(tabId, btn) {
                     </div>
                     <div class="card">
                         <div class="image-container">
-                            <div class="badge" style="background: rgba(46, 204, 113, 0.85); color: #000; border-color: rgba(46, 204, 113, 0.4);">🟢 PASS</div>
-                            <img src="${c.pass.image}" class="product-image" alt="${c.pass.name}">
+                            <div class="badge" style="background: #2ecc71; color: #000;">🟢 PASS</div>
+                            <img src="${c.pass.image}" class="product-image">
                         </div>
                         <div class="card-content">
                             <h3 class="product-title">${c.pass.name}</h3>
@@ -146,8 +189,8 @@ function switchTab(tabId, btn) {
             container.innerHTML = `<div class="grid-container">${items.map(i => `
                 <div class="card">
                     <div class="image-container">
-                        <div class="badge" style="background: rgba(46, 204, 113, 0.85); color: #000; border-color: rgba(46, 204, 113, 0.4);">🟢 PASS</div>
-                        <img src="${i.image}" class="product-image" alt="${i.name}">
+                        <div class="badge" style="background: #2ecc71; color: #000;">🟢 PASS</div>
+                        <img src="${i.image}" class="product-image">
                     </div>
                     <div class="card-content">
                         <h3 class="product-title">${i.name}</h3>
