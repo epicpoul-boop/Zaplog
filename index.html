@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The QC Report | Verified Gear</title>
     <style>
-        /* 1. Global Reset to fix "offsets" and padding issues */
         * { box-sizing: border-box; }
         
         body { 
@@ -13,21 +12,23 @@
             color: #ffffff; 
             font-family: "Inter", sans-serif; 
             margin: 0; 
-            padding: 10px; /* Reduced for better mobile fit */
+            padding: 10px; 
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
 
-        #app-container, .glass-header, .nav-menu { 
+        #app-container, .glass-header, .nav-menu, .site-footer { 
             max-width: 900px; 
             margin-left: auto; 
             margin-right: auto; 
             width: 100%;
         }
         
-        /* 2. Header Styles */
+        /* Header */
         .glass-header { 
             background: rgba(18, 18, 18, 0.6); 
             backdrop-filter: blur(16px); 
-            -webkit-backdrop-filter: blur(16px); 
             border: 1px solid rgba(255, 255, 255, 0.08); 
             border-radius: 20px; 
             padding: 30px 40px; 
@@ -39,49 +40,52 @@
         }
 
         .header-avatar { width: 120px; height: auto; filter: drop-shadow(0 8px 16px rgba(0,0,0,0.6)); }
-        .header-text-container { display: flex; flex-direction: column; }
-        .header-brand { font-size: 0.8rem; color: #ffcc00; font-weight: 800; text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 4px; }
         .header-title { font-size: 2.5rem; font-weight: 900; margin: 0 0 8px 0; line-height: 1.1; }
         .header-desc { font-size: 0.95rem; color: #bbbbbb; margin: 0; line-height: 1.5; }
 
-        /* 3. Mobile Responsiveness Fixes */
         @media (max-width: 768px) {
-            .glass-header {
-                flex-direction: column; /* Stack avatar above text */
-                text-align: center;
-                padding: 30px 20px;
-                gap: 20px;
-            }
+            .glass-header { flex-direction: column; text-align: center; padding: 30px 20px; }
             .header-avatar { width: 100px; }
             .header-title { font-size: 1.8rem; }
             .grid-container { grid-template-columns: 1fr !important; }
-            .vs-badge { display: none; } /* Hide VS badge on mobile to prevent overlap */
         }
 
-        /* 4. Navigation & Grid */
+        /* Nav */
         .nav-menu { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-bottom: 30px; padding: 10px 0; }
-        .nav-btn { background: rgba(20, 20, 20, 0.5); backdrop-filter: blur(10px); color: #cccccc; border: 1px solid rgba(255, 255, 255, 0.1); font-size: 0.85rem; font-weight: 700; padding: 10px 16px; cursor: pointer; border-radius: 50px; transition: 0.3s; white-space: nowrap; }
-        .nav-btn:hover { background: rgba(40, 40, 40, 0.7); color: #ffffff; }
+        .nav-btn { background: rgba(20, 20, 20, 0.5); backdrop-filter: blur(10px); color: #cccccc; border: 1px solid rgba(255, 255, 255, 0.1); font-size: 0.85rem; font-weight: 700; padding: 10px 16px; cursor: pointer; border-radius: 50px; transition: 0.3s; }
         .nav-btn.active { background: #ffffff; color: #000000; border-color: #ffffff; }
 
+        /* Cards */
         .grid-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
-        .card { background: rgba(18, 18, 18, 0.6); backdrop-filter: blur(12px); border-radius: 16px; overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.08); transition: 0.2s; display: flex; flex-direction: column; }
-        .card:hover { transform: translateY(-4px); border-color: rgba(255,255,255,0.2); }
-        
+        .card { background: rgba(18, 18, 18, 0.6); backdrop-filter: blur(12px); border-radius: 16px; overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.08); display: flex; flex-direction: column; }
         .image-container { position: relative; height: 220px; background: rgba(0, 0, 0, 0.3); }
         .product-image { width: 100%; height: 100%; object-fit: contain; padding: 15px; }
-        .badge { position: absolute; top: 12px; left: 12px; font-size: 0.7rem; font-weight: 800; padding: 5px 10px; border-radius: 50px; background: rgba(0,0,0,0.8); backdrop-filter: blur(4px); border: 1px solid rgba(255,255,255,0.2); z-index: 2;}
         
         .card-content { padding: 20px; display: flex; flex-direction: column; flex-grow: 1; }
         .product-title { font-size: 1.1rem; font-weight: 700; margin: 0 0 8px 0; }
         .price-tag { font-size: 1.1rem; font-weight: 600; color: #fff; margin-bottom: 12px; }
-        .verdict-text { font-size: 0.9rem; line-height: 1.5; color: #bbbbbb; margin: 0 0 20px 0; }
+        .verdict-text { font-size: 0.85rem; line-height: 1.5; color: #bbbbbb; margin-bottom: 15px; }
+
+        /* Affiliate Disclosure Style */
+        .affiliate-note { 
+            font-size: 0.7rem; 
+            color: #666; 
+            margin-bottom: 12px; 
+            font-style: italic;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            padding-top: 8px;
+        }
         
-        .btn { display: block; text-align: center; padding: 14px; margin-top: auto; border-radius: 8px; text-decoration: none; font-weight: 700; background: #fff; color: #000; transition: 0.2s; }
+        .btn { display: block; text-align: center; padding: 14px; border-radius: 8px; text-decoration: none; font-weight: 700; background: #fff; color: #000; transition: 0.2s; }
+
+        /* Footer & Terms */
+        .site-footer { margin-top: auto; padding: 40px 0; text-align: center; font-size: 0.8rem; color: #555; }
+        .footer-links { margin-bottom: 10px; }
+        .footer-links a { color: #888; text-decoration: none; margin: 0 10px; }
+        .footer-links a:hover { color: #fff; }
 
         .comparison-wrapper { background: rgba(10, 10, 10, 0.4); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 16px; padding: 24px; position: relative; margin-bottom: 30px;}
-        .comparison-header { text-align: center; font-weight: 800; font-size: 1rem; color: #fff; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 0.05em; }
-        .vs-badge { position: absolute; top: 55%; left: 50%; transform: translate(-50%, -50%); background: #000; border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 0.8rem; z-index: 10; }
+        .comparison-header { text-align: center; font-weight: 800; font-size: 1rem; color: #fff; margin-bottom: 20px; text-transform: uppercase; }
     </style>
 </head>
 <body>
@@ -91,42 +95,35 @@
     <div class="header-text-container">
         <div class="header-brand">OneZapAway's</div>
         <h1 class="header-title">QC Report</h1>
-        <p class="header-desc">Independent spec verification and hardware teardowns. We calculate factory data so you don't waste money.</p>
+        <p class="header-desc">Independent spec verification and hardware teardowns.</p>
     </div>
 </div>
 
 <div class="nav-menu">
     <button class="nav-btn active" id="default-tab" onclick="switchTab('passList', this)">🟢 Verified Shop</button>
-    <button class="nav-btn" onclick="switchTab('failList', this)">❌ Scam List</button>
     <button class="nav-btn" onclick="switchTab('comparisons', this)">⚖️ Compare</button>
-    <button class="nav-btn" onclick="switchTab('guides', this)">📚 Guides</button>
-    <button class="nav-btn" onclick="switchTab('stealthAudio', this)">🎧 Stealth Audio</button>
+    <button class="nav-btn" onclick="switchTab('tos', this)">⚖️ Terms</button>
 </div>
 
 <div id="app-container"></div>
 
+<!-- SITE FOOTER -->
+<footer class="site-footer">
+    <div class="footer-links">
+        <a href="#" onclick="switchTab('tos', this)">Terms of Service</a>
+        <a href="mailto:your@email.com">Contact Support</a>
+    </div>
+    <p>&copy; 2024 The QC Report. All rights reserved.</p>
+    <p style="font-size: 0.7rem; max-width: 600px; margin: 10px auto;">Disclosure: This site uses affiliate links. We may earn a commission if you make a purchase through our links at no additional cost to you.</p>
+</footer>
+
 <script>
-// Logic remains same, ensures standard functionality
 const db = {
     comparisons: [
         {
             topic: "Flagship TWS Comparison",
-            fail: { 
-                name: "Apple AirPods Pro 3", 
-                price: "$249.00",
-                image: "airpods3pro.jpeg", 
-                verdict: "The AirPods Pro 3 feature custom high-excursion Apple drivers and the H2 chip. While ecosystem integration is top-tier, the $249 price point represents a steep premium for pure audio performance.", 
-                button: "View Official Specs", 
-                url: "#" 
-            },
-            pass: { 
-                name: "Redmi Buds 8 Pro", 
-                price: "$69.99",
-                image: "redmibuds8pro.jpeg", 
-                verdict: "Features a coaxial triple-driver system and full LHDC 5.0 support. Testing verifies 55dB ANC depth. It provides comparable acoustic performance to flagship models for a fraction of the cost.", 
-                button: "🛒 Shop Verified", 
-                url: "#" 
-            }
+            fail: { name: "Product A", price: "$249.00", image: "img1.jpg", verdict: "Overpriced marketing.", button: "View Specs", url: "#" },
+            pass: { name: "Product B", price: "$69.99", image: "img2.jpg", verdict: "High performance value.", button: "🛒 Buy on AliExpress", url: "YOUR_AFFILIATE_LINK" }
         }
     ],
     passList: [
@@ -134,72 +131,72 @@ const db = {
             name: "Redmi Buds 8 Pro", 
             price: "$69.99",
             image: "redmibuds8pro.jpeg", 
-            verdict: "A thorough tech audit confirms the Redmi Buds 8 Pro offers exceptional price-to-performance. Features a robust coaxial triple-driver system and LHDC 5.0 support. Real-world battery life hits 8.5 hours.", 
-            button: "🛒 Shop Verified", 
-            url: "#" 
+            verdict: "Verified 55dB ANC and LHDC 5.0 support. Exceptional hardware for the price.", 
+            button: "🛒 Buy on AliExpress", 
+            url: "YOUR_AFFILIATE_LINK" 
         }
-    ],
-    failList: [],
-    guides: [],
-    stealthAudio: []
+    ]
 };
 
 function switchTab(tabId, btn) {
-    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
+    if (btn) {
+        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+    }
+    
     const container = document.getElementById('app-container');
     
+    if (tabId === 'tos') {
+        container.innerHTML = `
+            <div style="background: rgba(18,18,18,0.6); padding: 40px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.1); line-height: 1.6; font-size: 0.9rem; color: #ccc;">
+                <h2 style="color: #fff;">Terms of Service</h2>
+                <p><b>1. Content Ownership:</b> All original reviews, "verdicts," and tech audit data are property of The QC Report. Unauthorized duplication is prohibited.</p>
+                <p><b>2. Affiliate Disclosure:</b> Links on this site are affiliate links. As an AliExpress Associate, we earn from qualifying purchases. This does not change the price you pay.</p>
+                <p><b>3. Accuracy:</b> While we strive for accuracy in hardware teardowns, data is provided "as is" for informational purposes.</p>
+                <p><b>4. External Links:</b> We are not responsible for the content or products on third-party websites (e.g. AliExpress).</p>
+            </div>`;
+        return;
+    }
+
     if (tabId === 'comparisons') {
         container.innerHTML = db.comparisons.map(c => `
             <div class="comparison-wrapper">
                 <div class="comparison-header">REPORT: ${c.topic}</div>
                 <div class="grid-container">
                     <div class="card">
-                        <div class="image-container">
-                            <div class="badge" style="background: #ff4d4d; color: #fff;">❌ FAIL</div>
-                            <img src="${c.fail.image}" class="product-image">
-                        </div>
+                        <div class="image-container"><img src="${c.fail.image}" class="product-image"></div>
                         <div class="card-content">
                             <h3 class="product-title">${c.fail.name}</h3>
                             <div class="price-tag">${c.fail.price}</div>
-                            <p class="verdict-text"><b>Tech Audit:</b> ${c.fail.verdict}</p>
-                            <a href="${c.fail.url}" target="_blank" class="btn" style="background: rgba(255, 255, 255, 0.05); color: #888; border: 1px solid rgba(255, 255, 255, 0.1);">${c.fail.button}</a>
+                            <p class="verdict-text">${c.fail.verdict}</p>
+                            <a href="${c.fail.url}" target="_blank" class="btn" style="background:transparent; border:1px solid #444; color:#888;">${c.fail.button}</a>
                         </div>
                     </div>
                     <div class="card">
-                        <div class="image-container">
-                            <div class="badge" style="background: #2ecc71; color: #000;">🟢 PASS</div>
-                            <img src="${c.pass.image}" class="product-image">
-                        </div>
+                        <div class="image-container"><img src="${c.pass.image}" class="product-image"></div>
                         <div class="card-content">
                             <h3 class="product-title">${c.pass.name}</h3>
                             <div class="price-tag">${c.pass.price}</div>
-                            <p class="verdict-text"><b>Tech Audit:</b> ${c.pass.verdict}</p>
+                            <p class="verdict-text">${c.pass.verdict}</p>
+                            <div class="affiliate-note">Commission earned on sales</div>
                             <a href="${c.pass.url}" target="_blank" class="btn">${c.pass.button}</a>
                         </div>
                     </div>
                 </div>
-                <div class="vs-badge">VS</div>
             </div>`).join('');
     } else {
         const items = db[tabId] || [];
-        if (items.length === 0) {
-            container.innerHTML = `<p style="text-align:center; color:#888; margin-top:40px;">No items in this category yet.</p>`;
-        } else {
-            container.innerHTML = `<div class="grid-container">${items.map(i => `
-                <div class="card">
-                    <div class="image-container">
-                        <div class="badge" style="background: #2ecc71; color: #000;">🟢 PASS</div>
-                        <img src="${i.image}" class="product-image">
-                    </div>
-                    <div class="card-content">
-                        <h3 class="product-title">${i.name}</h3>
-                        <div class="price-tag">${i.price}</div>
-                        <p class="verdict-text">${i.verdict}</p>
-                        <a href="${i.url}" target="_blank" class="btn">${i.button}</a>
-                    </div>
-                </div>`).join('')}</div>`;
-        }
+        container.innerHTML = `<div class="grid-container">${items.map(i => `
+            <div class="card">
+                <div class="image-container"><img src="${i.image}" class="product-image"></div>
+                <div class="card-content">
+                    <h3 class="product-title">${i.name}</h3>
+                    <div class="price-tag">${i.price}</div>
+                    <p class="verdict-text">${i.verdict}</p>
+                    <div class="affiliate-note">Affiliate Link: We may earn a commission</div>
+                    <a href="${i.url}" target="_blank" class="btn">${i.button}</a>
+                </div>
+            </div>`).join('')}</div>`;
     }
 }
 
