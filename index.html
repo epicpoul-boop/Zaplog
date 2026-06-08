@@ -6,14 +6,15 @@
     <title>QC REPORT | Independent Spec Audits</title>
     <style>
         :root {
-            --bg: #050505;
-            --card-bg: #0c0c0c;
+            /* Palette swapped for Light Mode */
+            --bg: #ffffff;
+            --card-bg: #fcfcfc;
             --accent-orange: #ff9d00;
-            --accent-green: #2ecc71;
-            --accent-red: #ff4d4d;
-            --text-main: #ffffff;
-            --text-dim: #888888;
-            --border: rgba(255, 255, 255, 0.07);
+            --accent-green: #1b9c51; /* Darkened slightly for readability on white */
+            --accent-red: #d93025;   /* Darkened slightly */
+            --text-main: #111111;
+            --text-dim: #666666;
+            --border: rgba(0, 0, 0, 0.08);
         }
 
         * { box-sizing: border-box; }
@@ -80,14 +81,15 @@
             border-radius: 50%;
             background: var(--accent-orange);
             overflow: hidden;
-            border: 2px solid #000;
+            border: 2px solid #fff;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
 
         .avatar-circle img { width: 100%; height: 100%; object-fit: cover; }
 
         .status-text { text-align: left; }
         .status-name { font-size: 12px; font-weight: 800; text-transform: uppercase; }
-        .status-online { font-size: 9px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.1em; }
+        .status-online { font-size: 9px; color: var(--accent-green); text-transform: uppercase; letter-spacing: 0.1em; font-weight: 700; }
 
         /* NAVIGATION */
         .nav-bar {
@@ -111,7 +113,7 @@
             text-transform: uppercase;
         }
 
-        .nav-tab.active { color: #fff; }
+        .nav-tab.active { color: var(--text-main); }
         .nav-tab.active::after {
             content: '';
             position: absolute;
@@ -119,7 +121,7 @@
             left: 0;
             width: 100%;
             height: 2px;
-            background: #fff;
+            background: var(--text-main);
         }
 
         /* MAIN LAYOUT */
@@ -153,10 +155,10 @@
             color: var(--text-dim);
         }
 
-        .status-count { color: var(--accent-green); font-style: italic; font-size: 14px; }
+        .status-count { color: var(--accent-green); font-style: italic; font-size: 14px; font-weight: 800; }
 
         .vetting-card {
-            background: rgba(255,255,255,0.02);
+            background: #f4f4f4;
             padding: 15px;
             margin-bottom: 15px;
             border-radius: 4px;
@@ -187,25 +189,30 @@
         .report-card {
             background: var(--card-bg);
             border: 1px solid var(--border);
-            max-width: 100%; /* Expanded for desktop */
+            box-shadow: 0 10px 40px rgba(0,0,0,0.03);
         }
 
         .report-image-box {
             position: relative;
-            background: #111;
+            background: #f0f0f0;
             padding: 20px;
             display: flex;
             justify-content: center;
         }
 
-        .report-image-box img { max-width: 100%; height: auto; border: 1px solid var(--border); }
+        .report-image-box img { 
+            max-width: 100%; 
+            height: auto; 
+            border: 1px solid var(--border);
+            background: white;
+        }
 
         .pass-tag {
             position: absolute;
             top: 20px;
             left: 20px;
             background: var(--accent-green);
-            color: #000;
+            color: #fff;
             font-size: 10px;
             font-weight: 900;
             padding: 4px 10px;
@@ -222,7 +229,7 @@
         /* PROS & CONS - Stacked */
         .pros-cons-container {
             display: flex;
-            flex-direction: column; /* Stacked as requested */
+            flex-direction: column;
             gap: 20px;
             border-top: 1px solid var(--border);
             padding-top: 20px;
@@ -239,7 +246,7 @@
             margin-bottom: 8px; 
             padding-left: 15px; 
             position: relative; 
-            color: #ccc;
+            color: var(--text-dim);
         }
         .spec-list li::before {
             content: '';
@@ -251,11 +258,11 @@
             background: currentColor;
         }
 
-        /* BUTTON */
+        /* BUTTON - Inverted to Dark for contrast */
         .buy-btn {
             display: block;
-            background: #fff;
-            color: #000;
+            background: #111;
+            color: #fff;
             text-align: center;
             padding: 18px;
             text-decoration: none;
@@ -263,9 +270,10 @@
             text-transform: uppercase;
             font-size: 13px;
             margin-top: 30px;
+            transition: opacity 0.2s;
         }
+        .buy-btn:hover { opacity: 0.9; }
 
-        /* MOBILE RESPONSIVENESS */
         @media (max-width: 1100px) {
             .main-grid { grid-template-columns: 1fr; }
             .sidebar-left, .sidebar-right { order: 2; }
@@ -343,28 +351,34 @@
             <div class="vetting-name">I99999 ULTRA MAX CLONE</div>
             <div class="vetting-status">Demoted to Scam</div>
         </div>
-        <div class="vetting-card">
-            <div class="vetting-time">2 HOURS AGO</div>
-            <div class="vetting-name">SHUOER S12 PRO PLANAR IEM</div>
-            <div class="vetting-status">Classified Stealth</div>
-        </div>
     </aside>
 </main>
 
 <script>
+// Database logic remains the same
 const db = {
     passList: [
         { 
             name: "Redmi Buds 8 Pro", 
             price: "$69.99",
             image: "redmibuds8pro.jpeg", 
-            verdict: "A thorough tech audit confirms the Redmi Buds 8 Pro offers exceptional price-to-performance. The hardware features a robust coaxial triple-driver system and LHDC 5.0 support for Hi-Res audio. Internal testing verifies the massive 55dB ANC depth, and real-world battery life hits 8.5 hours per charge on the earbuds.", 
+            verdict: "A thorough tech audit confirms the Redmi Buds 8 Pro offers exceptional price-to-performance. The hardware features a robust coaxial triple-driver system and LHDC 5.0 support for Hi-Res audio. Internal testing verifies the massive 55dB ANC depth.", 
             pros: ["Coaxial triple-driver system", "LHDC 5.0 Hi-Res audio", "Verified 55dB ANC"],
             cons: ["Companion app features are basic", "Touch control customization is limited"],
             url: "#" 
         }
     ],
-    failList: [],
+    failList: [
+        {
+            name: "I99999 ULTRA MAX CLONE", 
+            price: "$12.00",
+            image: "clone.jpg", 
+            verdict: "Faked battery specs and generic 6mm drivers. Teardown reveals no actual ANC hardware despite marketing claims.", 
+            pros: ["Low cost"],
+            cons: ["Fake ANC", "Poor build quality"],
+            url: "#" 
+        }
+    ],
     guides: []
 };
 
@@ -378,19 +392,23 @@ function switchTab(tabId, btn) {
     const items = db[tabId] || [];
 
     if (items.length === 0) {
-        container.innerHTML = `<div style="color:#555; padding: 40px; text-align:center; border: 1px dashed var(--border);">NO RECORDS FOUND IN DATABASE</div>`;
+        container.innerHTML = `<div style="color:#aaa; padding: 40px; text-align:center; border: 1px dashed var(--border);">NO RECORDS FOUND IN DATABASE</div>`;
         return;
     }
 
     container.innerHTML = items.map(item => `
         <div class="report-card">
             <div class="report-image-box">
-                <div class="pass-tag">Pass</div>
+                <div class="pass-tag" style="background: ${tabId === 'failList' ? 'var(--accent-red)' : 'var(--accent-green)'}">
+                    ${tabId === 'failList' ? 'Fail' : 'Pass'}
+                </div>
                 <img src="${item.image}" alt="${item.name}">
             </div>
             <div class="report-body">
                 <h2 class="report-title">${item.name}</h2>
-                <div class="report-price">${item.price}</div>
+                <div class="report-price" style="color: ${tabId === 'failList' ? 'var(--accent-red)' : 'var(--accent-green)'}">
+                    ${item.price}
+                </div>
                 
                 <div class="audit-label">Technical Audit:</div>
                 <p class="audit-text">${item.verdict}</p>
@@ -410,14 +428,12 @@ function switchTab(tabId, btn) {
                     </div>
                 </div>
 
-                <a href="${item.url}" class="buy-btn">Acquire Hardware</a>
-                <p style="font-size:9px; color:#444; margin-top:15px; text-align:center;">* Affiliate link: commissions support teardown costs</p>
+                <a href="${item.url}" class="buy-btn">${tabId === 'failList' ? 'Avoid Hardware' : 'Acquire Hardware'}</a>
             </div>
         </div>
     `).join('');
 }
 
-// Init
 document.addEventListener("DOMContentLoaded", () => switchTab('passList'));
 </script>
 </body>
