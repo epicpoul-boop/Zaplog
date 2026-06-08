@@ -3,239 +3,422 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The QC Report | Verified Gear</title>
+    <title>QC REPORT | Independent Spec Audits</title>
     <style>
+        :root {
+            --bg: #050505;
+            --card-bg: #0c0c0c;
+            --accent-orange: #ff9d00;
+            --accent-green: #2ecc71;
+            --accent-red: #ff4d4d;
+            --text-main: #ffffff;
+            --text-dim: #888888;
+            --border: rgba(255, 255, 255, 0.07);
+        }
+
         * { box-sizing: border-box; }
-        
         body { 
-            background-color: transparent; 
-            color: #ffffff; 
-            font-family: "Inter", sans-serif; 
+            background-color: var(--bg); 
+            color: var(--text-main); 
+            font-family: 'Inter', sans-serif; 
             margin: 0; 
-            padding: 10px; 
+            padding: 0;
+            letter-spacing: -0.02em;
+        }
+
+        /* TOP HEADER */
+        .site-header {
+            padding: 40px 5% 20px;
             display: flex;
-            flex-direction: column;
-            min-height: 100vh;
+            justify-content: space-between;
+            align-items: flex-start;
+            max-width: 1400px;
+            margin: 0 auto;
         }
 
-        #app-container, .glass-header, .nav-menu, .site-footer { 
-            max-width: 900px; 
-            margin-left: auto; 
-            margin-right: auto; 
+        .header-left .sub-label {
+            font-size: 10px;
+            font-weight: 800;
+            color: var(--accent-orange);
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+        }
+
+        .header-left .logo-text {
+            font-size: 42px;
+            font-weight: 900;
+            font-style: italic;
+            margin: 0;
+            text-transform: uppercase;
+        }
+
+        .header-right {
+            display: flex;
+            gap: 20px;
+            text-align: right;
+            align-items: center;
+        }
+
+        .header-info {
+            font-size: 11px;
+            color: var(--text-dim);
+            max-width: 300px;
+            line-height: 1.4;
+            border-right: 1px solid var(--border);
+            padding-right: 20px;
+        }
+
+        .user-status {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .avatar-circle {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: var(--accent-orange);
+            overflow: hidden;
+            border: 2px solid #000;
+        }
+
+        .avatar-circle img { width: 100%; height: 100%; object-fit: cover; }
+
+        .status-text { text-align: left; }
+        .status-name { font-size: 12px; font-weight: 800; text-transform: uppercase; }
+        .status-online { font-size: 9px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.1em; }
+
+        /* NAVIGATION */
+        .nav-bar {
+            border-bottom: 1px solid var(--border);
+            padding: 0 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-tab {
+            padding: 15px 0;
+            background: none;
+            border: none;
+            color: var(--text-dim);
+            font-weight: 700;
+            font-size: 13px;
+            cursor: pointer;
+            position: relative;
+            text-transform: uppercase;
+        }
+
+        .nav-tab.active { color: #fff; }
+        .nav-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
             width: 100%;
+            height: 2px;
+            background: #fff;
         }
+
+        /* MAIN LAYOUT */
+        .main-grid {
+            display: grid;
+            grid-template-columns: 250px 1fr 300px;
+            gap: 40px;
+            max-width: 1400px;
+            margin: 40px auto;
+            padding: 0 5%;
+        }
+
+        /* SIDEBARS */
+        .sidebar-title {
+            font-size: 11px;
+            font-weight: 800;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .status-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border);
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-dim);
+        }
+
+        .status-count { color: var(--accent-green); font-style: italic; font-size: 14px; }
+
+        .vetting-card {
+            background: rgba(255,255,255,0.02);
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+        }
+
+        .vetting-time { font-size: 9px; color: var(--accent-orange); font-weight: 800; text-transform: uppercase; }
+        .vetting-name { font-size: 12px; font-weight: 700; margin: 4px 0; }
+        .vetting-status { font-size: 10px; color: var(--text-dim); font-style: italic; }
+
+        /* CONTENT CARD */
+        .content-header-main {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 5px;
+            font-size: 20px;
+            font-weight: 900;
+            text-transform: uppercase;
+        }
+
+        .content-header-sub {
+            font-size: 11px;
+            color: var(--text-dim);
+            letter-spacing: 0.1em;
+            margin-bottom: 30px;
+        }
+
+        .report-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            max-width: 100%; /* Expanded for desktop */
+        }
+
+        .report-image-box {
+            position: relative;
+            background: #111;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .report-image-box img { max-width: 100%; height: auto; border: 1px solid var(--border); }
+
+        .pass-tag {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: var(--accent-green);
+            color: #000;
+            font-size: 10px;
+            font-weight: 900;
+            padding: 4px 10px;
+            text-transform: uppercase;
+        }
+
+        .report-body { padding: 30px; }
+        .report-title { font-size: 22px; font-weight: 900; font-style: italic; margin-bottom: 5px; text-transform: uppercase; }
+        .report-price { color: var(--accent-green); font-weight: 800; font-size: 18px; margin-bottom: 20px; }
         
-        .glass-header { 
-            background: rgba(18, 18, 18, 0.6); 
-            backdrop-filter: blur(16px); 
-            border: 1px solid rgba(255, 255, 255, 0.08); 
-            border-radius: 20px; 
-            padding: 30px 40px; 
-            display: flex; 
-            align-items: center; 
-            gap: 30px; 
-            margin-bottom: 24px; 
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); 
+        .audit-label { font-size: 11px; color: var(--text-dim); font-weight: 800; margin-bottom: 10px; text-transform: uppercase; }
+        .audit-text { font-size: 14px; line-height: 1.6; color: var(--text-dim); margin-bottom: 30px; }
+
+        /* PROS & CONS - Stacked */
+        .pros-cons-container {
+            display: flex;
+            flex-direction: column; /* Stacked as requested */
+            gap: 20px;
+            border-top: 1px solid var(--border);
+            padding-top: 20px;
         }
 
-        .header-avatar { width: 120px; height: auto; filter: drop-shadow(0 8px 16px rgba(0,0,0,0.6)); }
-        .header-title { font-size: 2.5rem; font-weight: 900; margin: 0 0 8px 0; line-height: 1.1; }
-        .header-desc { font-size: 0.95rem; color: #bbbbbb; margin: 0; line-height: 1.5; }
+        .spec-group { flex: 1; }
+        .spec-header { font-size: 11px; font-weight: 900; margin-bottom: 10px; text-transform: uppercase; }
+        .spec-header.plus { color: var(--accent-green); }
+        .spec-header.minus { color: var(--accent-red); }
 
-        @media (max-width: 768px) {
-            .glass-header { flex-direction: column; text-align: center; padding: 30px 20px; }
-            .header-avatar { width: 100px; }
-            .header-title { font-size: 1.8rem; }
-            .grid-container { grid-template-columns: 1fr !important; }
+        .spec-list { list-style: none; padding: 0; margin: 0; }
+        .spec-list li { 
+            font-size: 12px; 
+            margin-bottom: 8px; 
+            padding-left: 15px; 
+            position: relative; 
+            color: #ccc;
+        }
+        .spec-list li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 6px;
+            width: 6px;
+            height: 1px;
+            background: currentColor;
         }
 
-        .nav-menu { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-bottom: 30px; padding: 10px 0; }
-        .nav-btn { background: rgba(20, 20, 20, 0.5); backdrop-filter: blur(10px); color: #cccccc; border: 1px solid rgba(255, 255, 255, 0.1); font-size: 0.85rem; font-weight: 700; padding: 10px 16px; cursor: pointer; border-radius: 50px; transition: 0.3s; white-space: nowrap; }
-        .nav-btn.active { background: #ffffff; color: #000000; border-color: #ffffff; }
-
-        .grid-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
-        .card { background: rgba(18, 18, 18, 0.6); backdrop-filter: blur(12px); border-radius: 16px; overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.08); display: flex; flex-direction: column; }
-        .image-container { position: relative; height: 220px; background: rgba(0, 0, 0, 0.3); }
-        .product-image { width: 100%; height: 100%; object-fit: contain; padding: 15px; }
-        
-        .card-content { padding: 20px; display: flex; flex-direction: column; flex-grow: 1; }
-        .product-title { font-size: 1.1rem; font-weight: 700; margin: 0 0 8px 0; }
-        .price-tag { font-size: 1.1rem; font-weight: 600; color: #fff; margin-bottom: 12px; }
-        .verdict-text { font-size: 0.85rem; line-height: 1.5; color: #bbbbbb; margin-bottom: 15px; }
-
-        /* Pros & Cons Styling */
-        .spec-list { margin: 0 0 20px 0; padding: 0; list-style: none; font-size: 0.8rem; }
-        .spec-item { display: flex; align-items: flex-start; gap: 8px; margin-bottom: 6px; line-height: 1.3; }
-        .pro-item { color: #2ecc71; }
-        .con-item { color: #ff4d4d; }
-
-        /* Placeholder System */
-        .placeholder-box { 
-            text-align: center; 
-            padding: 80px 20px; 
-            border: 2px dashed rgba(255,255,255,0.05); 
-            border-radius: 20px; 
-            color: #555;
+        /* BUTTON */
+        .buy-btn {
+            display: block;
+            background: #fff;
+            color: #000;
+            text-align: center;
+            padding: 18px;
+            text-decoration: none;
+            font-weight: 900;
+            text-transform: uppercase;
+            font-size: 13px;
+            margin-top: 30px;
         }
-        .placeholder-icon { font-size: 2rem; margin-bottom: 10px; opacity: 0.3; }
 
-        .affiliate-note { font-size: 0.7rem; color: #666; margin-bottom: 12px; font-style: italic; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 8px; }
-        .btn { display: block; text-align: center; padding: 14px; border-radius: 8px; text-decoration: none; font-weight: 700; background: #fff; color: #000; transition: 0.2s; }
-
-        .site-footer { margin-top: auto; padding: 40px 0; text-align: center; font-size: 0.8rem; color: #555; }
-        .footer-links { margin-bottom: 10px; }
-        .footer-links a { color: #888; text-decoration: none; margin: 0 10px; }
+        /* MOBILE RESPONSIVENESS */
+        @media (max-width: 1100px) {
+            .main-grid { grid-template-columns: 1fr; }
+            .sidebar-left, .sidebar-right { order: 2; }
+            .site-header { flex-direction: column; gap: 20px; }
+            .header-info { border: none; padding: 0; }
+            .header-right { text-align: left; }
+        }
     </style>
 </head>
 <body>
 
-<div class="glass-header">
-    <img src="avatar.png" alt="Avatar" class="header-avatar">
-    <div class="header-text-container">
-        <div class="header-brand">OneZapAway's</div>
-        <h1 class="header-title">QC Report</h1>
-        <p class="header-desc">Hardware teardowns & spec verification.</p>
+<header class="site-header">
+    <div class="header-left">
+        <div class="sub-label">Independent Spec Audits</div>
+        <h1 class="logo-text">QC Report</h1>
     </div>
-</div>
-
-<div class="nav-menu">
-    <button class="nav-btn active" id="default-tab" onclick="switchTab('passList', this)">🟢 Verified</button>
-    <button class="nav-btn" onclick="switchTab('failList', this)">❌ Scam List</button>
-    <button class="nav-btn" onclick="switchTab('comparisons', this)">⚖️ Compare</button>
-    <button class="nav-btn" onclick="switchTab('guides', this)">📚 Guides</button>
-</div>
-
-<div id="app-container"></div>
-
-<footer class="site-footer">
-    <div class="footer-links">
-        <a href="#" onclick="switchTab('tos')">Terms of Service</a>
-        <a href="mailto:cs-ivy@kydschoice.com">Contact</a>
+    <div class="header-right">
+        <div class="header-info">
+            Independent spec verification, hardware teardowns, gear comparisons, and reports by OneZapAway.
+        </div>
+        <div class="user-status">
+            <div class="avatar-circle">
+                <img src="avatar.png" alt="OZ">
+            </div>
+            <div class="status-text">
+                <div class="status-name">OneZapAway</div>
+                <div class="status-online">Station Online</div>
+            </div>
+        </div>
     </div>
-    <p>&copy; 2024 The QC Report. We may earn a commission from affiliate links.</p>
-</footer>
+</header>
+
+<nav class="nav-bar">
+    <button class="nav-tab active" onclick="switchTab('passList', this)">Verified Shop</button>
+    <button class="nav-tab" onclick="switchTab('failList', this)">Scam List</button>
+    <button class="nav-tab" onclick="switchTab('guides', this)">Guides & Reports</button>
+</nav>
+
+<main class="main-grid">
+    <!-- LEFT SIDEBAR -->
+    <aside class="sidebar-left">
+        <span class="sidebar-title">System Status</span>
+        <div class="status-item">
+            <span>VERIFIED_REPORTS</span>
+            <span class="status-count">1</span>
+        </div>
+        <div class="status-item">
+            <span>SCAM_ALERTS</span>
+            <span class="status-count">1</span>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <section class="content-area">
+        <div id="content-header">
+            <div class="content-header-main"><span>✔️</span> Verified Hardware</div>
+            <div class="content-header-sub">Vetted by tear-down engineers & bench testing.</div>
+        </div>
+        
+        <div id="app-container">
+            <!-- Content injected here -->
+        </div>
+    </section>
+
+    <!-- RIGHT SIDEBAR -->
+    <aside class="sidebar-right">
+        <span class="sidebar-title">Recent Vetting</span>
+        <div class="vetting-card">
+            <div class="vetting-time">5 MINS AGO</div>
+            <div class="vetting-name">REDMI BUDS 8 PRO</div>
+            <div class="vetting-status">Published Live</div>
+        </div>
+        <div class="vetting-card">
+            <div class="vetting-time">38 MINS AGO</div>
+            <div class="vetting-name">I99999 ULTRA MAX CLONE</div>
+            <div class="vetting-status">Demoted to Scam</div>
+        </div>
+        <div class="vetting-card">
+            <div class="vetting-time">2 HOURS AGO</div>
+            <div class="vetting-name">SHUOER S12 PRO PLANAR IEM</div>
+            <div class="vetting-status">Classified Stealth</div>
+        </div>
+    </aside>
+</main>
 
 <script>
 const db = {
-    comparisons: [
-        {
-            topic: "Flagship TWS Comparison",
-            fail: { 
-                name: "AirPods Pro 3", 
-                price: "$249.00", 
-                image: "airpods3pro.jpeg", 
-                verdict: "Diminishing returns for the price.",
-                pros: ["Best-in-class transparency", "Apple Ecosystem"],
-                cons: ["Extremely high price", "Glued construction"],
-                button: "View Specs", url: "#" 
-            },
-            pass: { 
-                name: "Redmi Buds 8 Pro", 
-                price: "$69.99", 
-                image: "redmibuds8pro.jpeg", 
-                verdict: "Unbeatable hardware for sub-$100.",
-                pros: ["Coaxial Triple Drivers", "55dB Verified ANC", "LDAC/LHDC 5.0"],
-                cons: ["App requires region switch", "Plastic case"],
-                button: "🛒 Shop Verified", url: "YOUR_AFFILIATE_LINK" 
-            }
-        }
-    ],
     passList: [
         { 
             name: "Redmi Buds 8 Pro", 
             price: "$69.99",
             image: "redmibuds8pro.jpeg", 
-            verdict: "Confirmed coaxial triple-driver system. Tech audit proves these match flagship audio response curves.", 
-            pros: ["11mm Titanium Drivers", "8.5hr Battery", "IP54 Rated"],
-            cons: ["Microphone average in wind", "Limited colors"],
-            button: "🛒 Shop Verified", 
-            url: "YOUR_AFFILIATE_LINK" 
+            verdict: "A thorough tech audit confirms the Redmi Buds 8 Pro offers exceptional price-to-performance. The hardware features a robust coaxial triple-driver system and LHDC 5.0 support for Hi-Res audio. Internal testing verifies the massive 55dB ANC depth, and real-world battery life hits 8.5 hours per charge on the earbuds.", 
+            pros: ["Coaxial triple-driver system", "LHDC 5.0 Hi-Res audio", "Verified 55dB ANC"],
+            cons: ["Companion app features are basic", "Touch control customization is limited"],
+            url: "#" 
         }
     ],
-    failList: [], // Empty list to show placeholder
-    guides: [],   // Empty list to show placeholder
+    failList: [],
+    guides: []
 };
 
-function renderSpecList(pros, cons) {
-    let html = '<ul class="spec-list">';
-    if (pros) pros.forEach(p => html += `<li class="spec-item pro-item"><b>+</b> ${p}</li>`);
-    if (cons) cons.forEach(c => html += `<li class="spec-item con-item"><b>-</b> ${c}</li>`);
-    html += '</ul>';
-    return html;
-}
-
 function switchTab(tabId, btn) {
-    if (btn) {
-        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+    if(btn) {
+        document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
         btn.classList.add('active');
     }
-    
+
     const container = document.getElementById('app-container');
-    
-    // Terms of Service View
-    if (tabId === 'tos') {
-        container.innerHTML = `<div class="placeholder-box"><h2>Terms of Service</h2><p>As an affiliate site, we provide technical audits. We earn commissions on qualifying purchases...</p></div>`;
-        return;
-    }
-
-    // Comparison View
-    if (tabId === 'comparisons') {
-        container.innerHTML = db.comparisons.map(c => `
-            <div class="comparison-wrapper">
-                <div class="comparison-header">REPORT: ${c.topic}</div>
-                <div class="grid-container">
-                    <div class="card">
-                        <div class="image-container"><img src="${c.fail.image}" class="product-image"></div>
-                        <div class="card-content">
-                            <h3 class="product-title">${c.fail.name}</h3>
-                            <div class="price-tag">${c.fail.price}</div>
-                            <p class="verdict-text">${c.fail.verdict}</p>
-                            ${renderSpecList(c.fail.pros, c.fail.cons)}
-                            <a href="${c.fail.url}" target="_blank" class="btn" style="background:transparent; border:1px solid #333; color:#555;">${c.fail.button}</a>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="image-container"><img src="${c.pass.image}" class="product-image"></div>
-                        <div class="card-content">
-                            <h3 class="product-title">${c.pass.name}</h3>
-                            <div class="price-tag">${c.pass.price}</div>
-                            <p class="verdict-text">${c.pass.verdict}</p>
-                            ${renderSpecList(c.pass.pros, c.pass.cons)}
-                            <div class="affiliate-note">Official Verified Partner Link</div>
-                            <a href="${c.pass.url}" target="_blank" class="btn">${c.pass.button}</a>
-                        </div>
-                    </div>
-                </div>
-            </div>`).join('');
-        return;
-    }
-
-    // Default List View (Verified, Scam, Guides)
     const items = db[tabId] || [];
+
     if (items.length === 0) {
-        container.innerHTML = `
-            <div class="placeholder-box">
-                <div class="placeholder-icon">🔍</div>
-                <p>Awaiting Verification</p>
-                <p style="font-size:0.7rem;">Our team is currently teardowning hardware for this category.<br>Check back soon.</p>
-            </div>`;
-    } else {
-        container.innerHTML = `<div class="grid-container">${items.map(i => `
-            <div class="card">
-                <div class="image-container"><img src="${i.image}" class="product-image"></div>
-                <div class="card-content">
-                    <h3 class="product-title">${i.name}</h3>
-                    <div class="price-tag">${i.price}</div>
-                    <p class="verdict-text">${i.verdict}</p>
-                    ${renderSpecList(i.pros, i.cons)}
-                    <div class="affiliate-note">May earn commission</div>
-                    <a href="${i.url}" target="_blank" class="btn">${i.button}</a>
-                </div>
-            </div>`).join('')}</div>`;
+        container.innerHTML = `<div style="color:#555; padding: 40px; text-align:center; border: 1px dashed var(--border);">NO RECORDS FOUND IN DATABASE</div>`;
+        return;
     }
+
+    container.innerHTML = items.map(item => `
+        <div class="report-card">
+            <div class="report-image-box">
+                <div class="pass-tag">Pass</div>
+                <img src="${item.image}" alt="${item.name}">
+            </div>
+            <div class="report-body">
+                <h2 class="report-title">${item.name}</h2>
+                <div class="report-price">${item.price}</div>
+                
+                <div class="audit-label">Technical Audit:</div>
+                <p class="audit-text">${item.verdict}</p>
+
+                <div class="pros-cons-container">
+                    <div class="spec-group">
+                        <div class="spec-header plus">+ Pros</div>
+                        <ul class="spec-list">
+                            ${item.pros.map(p => `<li>${p}</li>`).join('')}
+                        </ul>
+                    </div>
+                    <div class="spec-group">
+                        <div class="spec-header minus">- Cons</div>
+                        <ul class="spec-list" style="color: var(--accent-red)">
+                            ${item.cons.map(c => `<li>${c}</li>`).join('')}
+                        </ul>
+                    </div>
+                </div>
+
+                <a href="${item.url}" class="buy-btn">Acquire Hardware</a>
+                <p style="font-size:9px; color:#444; margin-top:15px; text-align:center;">* Affiliate link: commissions support teardown costs</p>
+            </div>
+        </div>
+    `).join('');
 }
 
-document.addEventListener("DOMContentLoaded", () => switchTab('passList', document.getElementById('default-tab')));
+// Init
+document.addEventListener("DOMContentLoaded", () => switchTab('passList'));
 </script>
 </body>
 </html>
