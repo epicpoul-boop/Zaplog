@@ -25,7 +25,6 @@
             width: 100%;
         }
         
-        /* Header */
         .glass-header { 
             background: rgba(18, 18, 18, 0.6); 
             backdrop-filter: blur(16px); 
@@ -50,12 +49,10 @@
             .grid-container { grid-template-columns: 1fr !important; }
         }
 
-        /* Nav */
         .nav-menu { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-bottom: 30px; padding: 10px 0; }
-        .nav-btn { background: rgba(20, 20, 20, 0.5); backdrop-filter: blur(10px); color: #cccccc; border: 1px solid rgba(255, 255, 255, 0.1); font-size: 0.85rem; font-weight: 700; padding: 10px 16px; cursor: pointer; border-radius: 50px; transition: 0.3s; }
+        .nav-btn { background: rgba(20, 20, 20, 0.5); backdrop-filter: blur(10px); color: #cccccc; border: 1px solid rgba(255, 255, 255, 0.1); font-size: 0.85rem; font-weight: 700; padding: 10px 16px; cursor: pointer; border-radius: 50px; transition: 0.3s; white-space: nowrap; }
         .nav-btn.active { background: #ffffff; color: #000000; border-color: #ffffff; }
 
-        /* Cards */
         .grid-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
         .card { background: rgba(18, 18, 18, 0.6); backdrop-filter: blur(12px); border-radius: 16px; overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.08); display: flex; flex-direction: column; }
         .image-container { position: relative; height: 220px; background: rgba(0, 0, 0, 0.3); }
@@ -66,26 +63,28 @@
         .price-tag { font-size: 1.1rem; font-weight: 600; color: #fff; margin-bottom: 12px; }
         .verdict-text { font-size: 0.85rem; line-height: 1.5; color: #bbbbbb; margin-bottom: 15px; }
 
-        /* Affiliate Disclosure Style */
-        .affiliate-note { 
-            font-size: 0.7rem; 
-            color: #666; 
-            margin-bottom: 12px; 
-            font-style: italic;
-            border-top: 1px solid rgba(255,255,255,0.05);
-            padding-top: 8px;
+        /* Pros & Cons Styling */
+        .spec-list { margin: 0 0 20px 0; padding: 0; list-style: none; font-size: 0.8rem; }
+        .spec-item { display: flex; align-items: flex-start; gap: 8px; margin-bottom: 6px; line-height: 1.3; }
+        .pro-item { color: #2ecc71; }
+        .con-item { color: #ff4d4d; }
+
+        /* Placeholder System */
+        .placeholder-box { 
+            text-align: center; 
+            padding: 80px 20px; 
+            border: 2px dashed rgba(255,255,255,0.05); 
+            border-radius: 20px; 
+            color: #555;
         }
-        
+        .placeholder-icon { font-size: 2rem; margin-bottom: 10px; opacity: 0.3; }
+
+        .affiliate-note { font-size: 0.7rem; color: #666; margin-bottom: 12px; font-style: italic; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 8px; }
         .btn { display: block; text-align: center; padding: 14px; border-radius: 8px; text-decoration: none; font-weight: 700; background: #fff; color: #000; transition: 0.2s; }
 
-        /* Footer & Terms */
         .site-footer { margin-top: auto; padding: 40px 0; text-align: center; font-size: 0.8rem; color: #555; }
         .footer-links { margin-bottom: 10px; }
         .footer-links a { color: #888; text-decoration: none; margin: 0 10px; }
-        .footer-links a:hover { color: #fff; }
-
-        .comparison-wrapper { background: rgba(10, 10, 10, 0.4); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 16px; padding: 24px; position: relative; margin-bottom: 30px;}
-        .comparison-header { text-align: center; font-weight: 800; font-size: 1rem; color: #fff; margin-bottom: 20px; text-transform: uppercase; }
     </style>
 </head>
 <body>
@@ -95,26 +94,25 @@
     <div class="header-text-container">
         <div class="header-brand">OneZapAway's</div>
         <h1 class="header-title">QC Report</h1>
-        <p class="header-desc">Independent spec verification and hardware teardowns.</p>
+        <p class="header-desc">Hardware teardowns & spec verification.</p>
     </div>
 </div>
 
 <div class="nav-menu">
-    <button class="nav-btn active" id="default-tab" onclick="switchTab('passList', this)">🟢 Verified Shop</button>
+    <button class="nav-btn active" id="default-tab" onclick="switchTab('passList', this)">🟢 Verified</button>
+    <button class="nav-btn" onclick="switchTab('failList', this)">❌ Scam List</button>
     <button class="nav-btn" onclick="switchTab('comparisons', this)">⚖️ Compare</button>
-    <button class="nav-btn" onclick="switchTab('tos', this)">⚖️ Terms</button>
+    <button class="nav-btn" onclick="switchTab('guides', this)">📚 Guides</button>
 </div>
 
 <div id="app-container"></div>
 
-<!-- SITE FOOTER -->
 <footer class="site-footer">
     <div class="footer-links">
-        <a href="#" onclick="switchTab('tos', this)">Terms of Service</a>
-        <a href="mailto:your@email.com">Contact Support</a>
+        <a href="#" onclick="switchTab('tos')">Terms of Service</a>
+        <a href="mailto:cs-ivy@kydschoice.com">Contact</a>
     </div>
-    <p>&copy; 2026 The QC Report. All rights reserved.</p>
-    <p style="font-size: 0.7rem; max-width: 600px; margin: 10px auto;">Disclosure: This site uses affiliate links. We may earn a commission if you make a purchase through our links at no additional cost to you.</p>
+    <p>&copy; 2024 The QC Report. We may earn a commission from affiliate links.</p>
 </footer>
 
 <script>
@@ -122,21 +120,49 @@ const db = {
     comparisons: [
         {
             topic: "Flagship TWS Comparison",
-            fail: { name: "Product A", price: "$249.00", image: "img1.jpg", verdict: "Overpriced marketing.", button: "View Specs", url: "#" },
-            pass: { name: "Product B", price: "$69.99", image: "img2.jpg", verdict: "High performance value.", button: "🛒 Buy on AliExpress", url: "YOUR_AFFILIATE_LINK" }
+            fail: { 
+                name: "AirPods Pro 3", 
+                price: "$249.00", 
+                image: "airpods3pro.jpeg", 
+                verdict: "Diminishing returns for the price.",
+                pros: ["Best-in-class transparency", "Apple Ecosystem"],
+                cons: ["Extremely high price", "Glued construction"],
+                button: "View Specs", url: "#" 
+            },
+            pass: { 
+                name: "Redmi Buds 8 Pro", 
+                price: "$69.99", 
+                image: "redmibuds8pro.jpeg", 
+                verdict: "Unbeatable hardware for sub-$100.",
+                pros: ["Coaxial Triple Drivers", "55dB Verified ANC", "LDAC/LHDC 5.0"],
+                cons: ["App requires region switch", "Plastic case"],
+                button: "🛒 Shop Verified", url: "YOUR_AFFILIATE_LINK" 
+            }
         }
     ],
     passList: [
         { 
             name: "Redmi Buds 8 Pro", 
-            price: "~$69.99",
+            price: "$69.99",
             image: "redmibuds8pro.jpeg", 
-            verdict: "Verified 55dB ANC and LHDC 5.0 support. Exceptional hardware for the price.", 
-            button: "🛒 Buy on AliExpress", 
-            url: "https://s.click.aliexpress.com/e/_c3YBdNjb" 
+            verdict: "Confirmed coaxial triple-driver system. Tech audit proves these match flagship audio response curves.", 
+            pros: ["11mm Titanium Drivers", "8.5hr Battery", "IP54 Rated"],
+            cons: ["Microphone average in wind", "Limited colors"],
+            button: "🛒 Shop Verified", 
+            url: "YOUR_AFFILIATE_LINK" 
         }
-    ]
+    ],
+    failList: [], // Empty list to show placeholder
+    guides: [],   // Empty list to show placeholder
 };
+
+function renderSpecList(pros, cons) {
+    let html = '<ul class="spec-list">';
+    if (pros) pros.forEach(p => html += `<li class="spec-item pro-item"><b>+</b> ${p}</li>`);
+    if (cons) cons.forEach(c => html += `<li class="spec-item con-item"><b>-</b> ${c}</li>`);
+    html += '</ul>';
+    return html;
+}
 
 function switchTab(tabId, btn) {
     if (btn) {
@@ -146,18 +172,13 @@ function switchTab(tabId, btn) {
     
     const container = document.getElementById('app-container');
     
+    // Terms of Service View
     if (tabId === 'tos') {
-        container.innerHTML = `
-            <div style="background: rgba(18,18,18,0.6); padding: 40px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.1); line-height: 1.6; font-size: 0.9rem; color: #ccc;">
-                <h2 style="color: #fff;">Terms of Service</h2>
-                <p><b>1. Content Ownership:</b> All original reviews, "verdicts," and tech audit data are property of The QC Report. Unauthorized duplication is prohibited.</p>
-                <p><b>2. Affiliate Disclosure:</b> Links on this site are affiliate links. As an AliExpress Associate, we earn from qualifying purchases. This does not change the price you pay.</p>
-                <p><b>3. Accuracy:</b> While we strive for accuracy in hardware teardowns, data is provided "as is" for informational purposes.</p>
-                <p><b>4. External Links:</b> We are not responsible for the content or products on third-party websites (e.g. AliExpress).</p>
-            </div>`;
+        container.innerHTML = `<div class="placeholder-box"><h2>Terms of Service</h2><p>As an affiliate site, we provide technical audits. We earn commissions on qualifying purchases...</p></div>`;
         return;
     }
 
+    // Comparison View
     if (tabId === 'comparisons') {
         container.innerHTML = db.comparisons.map(c => `
             <div class="comparison-wrapper">
@@ -169,7 +190,8 @@ function switchTab(tabId, btn) {
                             <h3 class="product-title">${c.fail.name}</h3>
                             <div class="price-tag">${c.fail.price}</div>
                             <p class="verdict-text">${c.fail.verdict}</p>
-                            <a href="${c.fail.url}" target="_blank" class="btn" style="background:transparent; border:1px solid #444; color:#888;">${c.fail.button}</a>
+                            ${renderSpecList(c.fail.pros, c.fail.cons)}
+                            <a href="${c.fail.url}" target="_blank" class="btn" style="background:transparent; border:1px solid #333; color:#555;">${c.fail.button}</a>
                         </div>
                     </div>
                     <div class="card">
@@ -178,14 +200,26 @@ function switchTab(tabId, btn) {
                             <h3 class="product-title">${c.pass.name}</h3>
                             <div class="price-tag">${c.pass.price}</div>
                             <p class="verdict-text">${c.pass.verdict}</p>
-                            <div class="affiliate-note">Commission earned on sales</div>
+                            ${renderSpecList(c.pass.pros, c.pass.cons)}
+                            <div class="affiliate-note">Official Verified Partner Link</div>
                             <a href="${c.pass.url}" target="_blank" class="btn">${c.pass.button}</a>
                         </div>
                     </div>
                 </div>
             </div>`).join('');
+        return;
+    }
+
+    // Default List View (Verified, Scam, Guides)
+    const items = db[tabId] || [];
+    if (items.length === 0) {
+        container.innerHTML = `
+            <div class="placeholder-box">
+                <div class="placeholder-icon">🔍</div>
+                <p>Awaiting Verification</p>
+                <p style="font-size:0.7rem;">Our team is currently teardowning hardware for this category.<br>Check back soon.</p>
+            </div>`;
     } else {
-        const items = db[tabId] || [];
         container.innerHTML = `<div class="grid-container">${items.map(i => `
             <div class="card">
                 <div class="image-container"><img src="${i.image}" class="product-image"></div>
@@ -193,7 +227,8 @@ function switchTab(tabId, btn) {
                     <h3 class="product-title">${i.name}</h3>
                     <div class="price-tag">${i.price}</div>
                     <p class="verdict-text">${i.verdict}</p>
-                    <div class="affiliate-note">Affiliate Link: We may earn a commission</div>
+                    ${renderSpecList(i.pros, i.cons)}
+                    <div class="affiliate-note">May earn commission</div>
                     <a href="${i.url}" target="_blank" class="btn">${i.button}</a>
                 </div>
             </div>`).join('')}</div>`;
